@@ -1,10 +1,10 @@
 # Travailler avec les fichiers sur le cluster
 
-Votre repertoire home est directement accessible depuis le cluster mais le serveur pour ces fichiers n'est pas dimensionné pour les calculs.
+Votre repertoire HOME est directement accessible depuis le cluster mais le serveur pour ces fichiers n'est pas dimensionné pour les calculs.
 
-Il est fortement recommandé de passer par les *workdir* qui sont dédiés au calcul (qui sont accessible via `/workdir/<votre_login>` ou `/workdir2/<votre_login>` depuis le cluster).
+Il est fortement recommandé de passer par les *workdir* qui eux sont dédiés à cet usage. Ces derniers sont accessible via `/workdir/<votre_login>` ou `/workdir2/<votre_login>` depuis le cluster.
 
-Si vous n'en avez pas, ou si ça ne vous dit rien, vous pouvez passer nous voir (les ingénieurs calcul) pour que nous vous en créons un.
+Si aucun de ces chemin n'est accessible, vous pouvez passer voir l'IT ou un ingénieur calcul qui vous en créera tout ce qu'il faut.
 
 ## Accès depuis les outils graphiques
 
