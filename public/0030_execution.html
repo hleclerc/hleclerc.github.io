@@ -225,16 +225,20 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="exécution-de-commande">Exécution de commande</h1>
-<p>La connexion ssh ne vous donne accès qu’à la machine &quot;maître&quot; qui n’est pas dimensionnée pour faire des calculs. Pour profiter du cluster, les ressources doivent être demandées via une file d’attente.</p>
-<p>Il existe sur internet des documentations détaillées et extrêmement bien faites pour <a href="https://slurm.schedmd.com/documentation.html" target="_blank">le gestionnaire que nous utilisons (slurm)</a>. Nous vous livrons ici une version synthétique qui correspond à l&apos;usage attendu de notre cluster.</p>
+<p>La connexion ssh ne vous donne accès qu’à la machine &quot;maître&quot;, qui ne sert que de système d&apos;aiguillage et qui n’est pas dimensionnée pour faire des calculs. Pour profiter des possibilités du cluster, il faut passer par un système de file d’attente.</p>
+<p>Le gestionnaire que nous utilisons (slurm) est très bien <a href="https://slurm.schedmd.com/documentation.html" target="_blank">documenté sur internet</a>. Nous vous livrons ici une version synthétique qui correspond à l&apos;usage le plus courant de notre cluster.</p>
 <h2 id="lancement-immédiat-srun">Lancement immédiat (srun)</h2>
 <p>Si vous souhaitez lancer une commande simple et attendre le résultat avec un retour direct sur votre terminal, vous pouvez utiliser <code>srun</code> :</p>
 <pre><code class="lang-bash">srun [options de srun] ma_commande [options pour ma_commande]
 </code></pre>
 <p>Voici quelques options importantes:</p>
 <ul>
-<li><code>-N</code> permet de spécifier le nombre de noeuds sur lesquels lancer</li>
+<li><code>-N</code> permet de spécifier le nombre (minimum) de nœuds sur lesquels lancer la commande. Si <code>-n</code> ou <code>-c</code> n&apos;est pas spécifié, il y aura un seul processus par nœud et chaque processus pourra donc utiliser tous les cores de son nœud.</li>
+<li><code>-n</code> permet de spécifier le nombre de processus à lancer en parallèle. Si <code>-c</code> n&apos;est pas spécifié, Slurm utilisera un &quot;core&quot; par processus de sorte qu&apos;un nœud pourra se retrouver avec plusieurs processus.</li>
+<li><code>-c</code> permet de spécifier le nombre de core libres par processus.</li>
+<li><code>--mpi=pmi2</code> pour produire le même effet qu&apos;un <code>mpirun</code>.</li>
 </ul>
+<p>Par défaut, Slurm lance les processus de façon indépendante avec des variable d&apos;environnement différentes (comme <code>SLURM_LOCALID</code> qui donne le numéro du core sur le nœud et <code>SLURM_NODEID</code> qui donne le numéro du nœud). Si vous utilisez mpi, si vous voulez que <code>rank</code> et <code>size</code> soient corrects, il faut ajouter l&apos;option <code>--mpi=pmi2</code> (et utiliser une commande Slurm à la place de <code>mpirun</code>, <code>mpiexec</code> ou autre).</p>
 <h2 id="lancement-différé-sbatch">Lancement différé (sbatch)</h2>
 <p>Pour envoyer un job dans la file d’attente, il faut utiliser la commande sbatch. Pour utiliser cette commande il faut créer un script bash qui va contenir à la fois les commandes pour lancer le programme et les options d’exécution (telles que les ressources nécessaires (la RAM, nombre de processeurs...), ou des options liées à la gestion du job (le nom du job, ...)).</p>
 <p>sbatch is used to submit a job script for later execution. The script will typically contain one or more srun commands to launch parallel tasks.</p>

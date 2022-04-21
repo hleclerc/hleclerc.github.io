@@ -225,14 +225,14 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="travailler-avec-les-fichiers-sur-le-cluster">Travailler avec les fichiers sur le cluster</h1>
-<p>Votre repertoire HOME est directement accessible depuis le cluster mais le serveur pour ces fichiers n&apos;est pas dimensionné pour les calculs.</p>
-<p>Il est fortement recommandé de passer par les <em>workdir</em> qui eux sont dédiés à cet usage. Ces derniers sont accessible via <code>/workdir/&lt;votre_login&gt;</code> ou <code>/workdir2/&lt;votre_login&gt;</code> depuis le cluster.</p>
-<p>Si aucun de ces chemin n&apos;est accessible, vous pouvez passer voir l&apos;IT ou un ingénieur calcul qui vous en créera tout ce qu&apos;il faut.</p>
+<p>Votre repertoire $HOME est directement accessible depuis le cluster mais le serveur associé n&apos;est <em>pas</em> dimensionné pour les calculs.</p>
+<p>Il est fortement recommandé de passer par les répertoires <em>workdir</em> qui sont dédiés à cet usage. Ces derniers sont accessible via <code>/workdir/&lt;votre_login&gt;</code> ou <code>/workdir2/&lt;votre_login&gt;</code> depuis le cluster (une fois connecté dessus).</p>
+<p>Si aucun de ces chemin n&apos;est accessible, vous pouvez passer voir le SVP informatique ou un.e ingénieur.e calcul qui vous créera tout ce qu&apos;il faut.</p>
 <h2 id="accès-depuis-les-outils-graphiques">Accès depuis les outils graphiques</h2>
-<p>Si vous êtes sur un poste linux, vous pouvez utiliser n’importe quel navigateur de fichier (konqueror, dolphin, nautilus...) et utiliser l’adresse <code>sftp://cinaps</code> pour accéder au répertoires et fichiers comme s’ils étaient en local, faire des transferts, etc... Pour Mac ou Windows, vous pouvez installer un logiciel tel que Cyberduck ou Filezilla, par ailleurs documenté <a href="la%20page%20de%20l%27intranet">sur la page de l’intranet qui traite des transferts de fichiers de façon générique</a>.</p>
-<p>À noter aussi: certain IDE comme visual code permettent de <a href="https://code.visualstudio.com/docs/remote/ssh" target="_blank">travailler sur des machines distantes comme si on était en local</a>. Cette solution est extrêmement pratique si vous avez l&apos;habitude d&apos;utiliser un IDE, puisqu&apos;il gérera tout le processus de développement sur la machine distante (les transferts de fichiers, la compilation, etc...) de façon automatique.</p>
+<p>Si vous êtes sur un poste linux, vous pouvez utiliser n’importe quel navigateur de fichier (konqueror, dolphin, nautilus...) et utiliser l’adresse <code>sftp://cinaps</code> pour accéder au répertoires et fichiers comme s’ils étaient en local, faire des transferts, etc... Pour Mac ou Windows, vous pouvez installer un logiciel tel que Cyberduck ou Filezilla, par ailleurs documenté <a href="https://intranet.imo.universite-paris-saclay.fr/-Stockage-sauvegarde-transfert-de-fichiers-72-" target="_blank">sur la page de l’intranet qui traite des transferts de fichiers de façon générique</a>.</p>
+<p>À noter aussi: certain IDE comme <a href="https://code.visualstudio.com/" target="_blank">visual code</a> permettent de <a href="https://code.visualstudio.com/docs/remote/ssh" target="_blank">travailler sur des machines distantes comme si on était en local</a>. Cette solution est extrêmement pratique si vous avez l&apos;habitude d&apos;utiliser un IDE, ce dernier gérant de façon rapide et transparente tout le processus de développement sur la machine distante (la synchronisation des fichiers, la compilation, etc...).</p>
 <h2 id="montage-de-repertoires-distant">Montage de repertoires distant</h2>
-<p><a href="https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh" target="_blank">sshfs</a> permet de &quot;monter&quot; un répertoire distant comme s&apos;il était local. Ce répertoire sera ensuite accessible par tout votre système que ça soit par les outils graphiques ou par la ligne de commande.</p>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh" target="_blank">sshfs</a> permet de &quot;monter&quot; un répertoire distant comme s&apos;il était local. Ce répertoire sera ensuite accessible par <em>tout</em> votre système que ça soit pour les outils graphiques ou pour la ligne de commande.</p>
 <p>Une fois installé, vous pouvez par exemple taper</p>
 <pre><code class="lang-bash"><span class="hljs-comment"># à ne faire qu&apos;une seule fois pour créer un repertoire vide</span>
 mkdir mon_rep
@@ -241,7 +241,7 @@ sshfs cinaps:/workdir/&lt;votre_login&gt; mon_rep
 </code></pre>
 <p>et <code>mon_rep</code> contiendra un lien synchronisé vers le contenu de votre workdir.</p>
 <h2 id="transferts-en-ligne-de-commande">Transferts en ligne de commande</h2>
-<p>Pour les plus courageu.ses.x, <code>scp</code> ou <code>rsync</code> permettent de réaliser des transfert manuels.</p>
+<p>Pour les plus courageu.ses.x, <code>scp</code> ou <code>rsync</code> permettent de réaliser les transfert à la main (<code>rsync</code> étant plus rapide lorsqu&apos;il y a beaucoup de fichiers).</p>
 
                                 
                                 </section>

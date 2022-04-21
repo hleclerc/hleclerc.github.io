@@ -1,8 +1,8 @@
 # Exécution de commande
 
-La connexion ssh ne vous donne accès qu’à la machine "maître" qui n’est pas dimensionnée pour faire des calculs. Pour profiter du cluster, les ressources doivent être demandées via une file d’attente.
+La connexion ssh ne vous donne accès qu’à la machine "maître", qui ne sert que de système d'aiguillage et qui n’est pas dimensionnée pour faire des calculs. Pour profiter des possibilités du cluster, il faut passer par un système de file d’attente.
 
-Il existe sur internet des documentations détaillées et extrêmement bien faites pour [le gestionnaire que nous utilisons (slurm)](https://slurm.schedmd.com/documentation.html). Nous vous livrons ici une version synthétique qui correspond à l'usage attendu de notre cluster.
+Le gestionnaire que nous utilisons (slurm) est très bien [documenté sur internet](https://slurm.schedmd.com/documentation.html). Nous vous livrons ici une version synthétique qui correspond à l'usage le plus courant de notre cluster.
 
 ## Lancement immédiat (srun)
 
@@ -13,7 +13,12 @@ srun [options de srun] ma_commande [options pour ma_commande]
 ```
 
 Voici quelques options importantes:
-* `-N` permet de spécifier le nombre de noeuds sur lesquels lancer
+* `-N` permet de spécifier le nombre (minimum) de nœuds sur lesquels lancer la commande. Si `-n` ou `-c` n'est pas spécifié, il y aura un seul processus par nœud et chaque processus pourra donc utiliser tous les cores de son nœud.
+* `-n` permet de spécifier le nombre de processus à lancer en parallèle. Si `-c` n'est pas spécifié, Slurm utilisera un "core" par processus de sorte qu'un nœud pourra se retrouver avec plusieurs processus.
+* `-c` permet de spécifier le nombre de core libres par processus.
+* `--mpi=pmi2` pour produire le même effet qu'un `mpirun`.
+
+Par défaut, Slurm lance les processus de façon indépendante avec des variable d'environnement différentes (comme `SLURM_LOCALID` qui donne le numéro du core sur le nœud et `SLURM_NODEID` qui donne le numéro du nœud). Si vous utilisez mpi, si vous voulez que `rank` et `size` soient corrects, il faut ajouter l'option `--mpi=pmi2` (et utiliser une commande Slurm à la place de `mpirun`, `mpiexec` ou autre).
 
 ## Lancement différé (sbatch)
 
