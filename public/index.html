@@ -138,9 +138,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="0040_environnement.html">
+        <li class="chapter " data-level="1.5" data-path="0040_environnement/">
             
-                <a href="0040_environnement.html">
+                <a href="0040_environnement/">
             
                     
                     Environnement de travail
@@ -148,6 +148,51 @@
                 </a>
             
 
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="0040_environnement/0010_module.html">
+            
+                <a href="0040_environnement/0010_module.html">
+            
+                    
+                    Module
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="0040_environnement/0020_conda.html">
+            
+                <a href="0040_environnement/0020_conda.html">
+            
+                    
+                    Conda
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="0040_environnement/0030_singularity.html">
+            
+                <a href="0040_environnement/0030_singularity.html">
+            
+                    
+                    Singularity
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -224,40 +269,75 @@
                                 
                                 <h1 id="cluster-de-calcul">Cluster de calcul</h1>
 <h2 id="composition">Composition</h2>
-<p>Le cluster se compose de <em>x</em> machines qui font des calculs trop cools.</p>
+<p>Le cluster se compose de 9 machines avec les capacités suivantes :</p>
 <table>
 <thead>
 <tr>
 <th>Nom</th>
-<th># cores</th>
-<th>Arch</th>
+<th>CPUs</th>
 <th>Mem</th>
-<th>GPU type</th>
-<th>GPU mem/brd</th>
-<th># GPU brds</th>
+<th>GPUs</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>node7</td>
-<td>2</td>
-<td>nocona</td>
-<td>3 Go</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
+<td>node11</td>
+<td>2x8  Sandy Bridge (avx)</td>
+<td>256  Go</td>
+<td>-</td>
 </tr>
 <tr>
-<td>node8</td>
-<td>17</td>
-<td>renzo piano</td>
-<td>5 Go</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
+<td>node12</td>
+<td>4x10 Broadwell (avx2)</td>
+<td>128  Go</td>
+<td>-</td>
+</tr>
+<tr>
+<td>node13</td>
+<td>4x20 Skylake (avx2)</td>
+<td>384  Go</td>
+<td>-</td>
+</tr>
+<tr>
+<td>node14</td>
+<td>2x64 Zen 3 (avx2)</td>
+<td>1024 Go</td>
+<td>-</td>
+</tr>
+<tr>
+<td>node15</td>
+<td>2x28 Cascade Lake (avx2)</td>
+<td>768  Go</td>
+<td>1 x Quadro GV100 (32 Go)</td>
+</tr>
+<tr>
+<td>node16</td>
+<td>2x10 Ivy Bridge (avx)</td>
+<td>64   Go</td>
+<td>-</td>
+</tr>
+<tr>
+<td>node17</td>
+<td>4x16 Broadwell (avx2)</td>
+<td>256  Go</td>
+<td>-</td>
+</tr>
+<tr>
+<td>node18</td>
+<td>2x8  Sandy Bridge (avx)</td>
+<td>192  Go</td>
+<td>? x Tesla K20m (? Go)</td>
+</tr>
+<tr>
+<td>node19</td>
+<td>2x6  Nehalem (sse4_2)</td>
+<td>35   Go</td>
+<td>-</td>
 </tr>
 </tbody>
 </table>
+<!-- obtenu avec srun --nodelist=node11 ./pinxi --tty -Fxz -->
+<p>Sur la <a href="https://cinaps.imo.universite-paris-saclay.fr/" target="_blank">page ganglia</a>, vous trouverez des graphiques sur l’utilisation des différents nœuds (RAM, CPU,...)</p>
 <h2 id="correspondants">Correspondants</h2>
 <p>Pour toute question technique non couverte ou peu claire dans la documentation, vous pouvez contacter:</p>
 <ul>
@@ -305,7 +385,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"Se connecter","level":"1.2","depth":1,"path":"0010_se_connecter.md","ref":"0010_se_connecter.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2022-04-19T16:06:13.192Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-04-19T16:11:12.253Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"Se connecter","level":"1.2","depth":1,"path":"0010_se_connecter.md","ref":"0010_se_connecter.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2022-04-21T13:32:15.234Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-04-21T13:48:13.128Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

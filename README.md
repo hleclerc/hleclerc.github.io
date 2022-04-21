@@ -2,13 +2,23 @@
 
 ## Composition
 
-Le cluster se compose de *x* machines qui font des calculs trop cools.
+Le cluster se compose de 9 machines avec les capacités suivantes :
 
-| Nom    | # cores | Arch        | Mem   |  GPU type  |  GPU mem/brd  |  # GPU brds  |
-| ----   | ------- | ----------- | ----- | ---------- | ------------- | ------------ |
-| node7  |  2      | nocona      | 3 Go  |  0         |  0            |  0           |
-| node8  |  17     | renzo piano | 5 Go  |  0         |  0            |  0           |
+| Nom    | CPUs                     | Mem     |  GPUs                    |
+| ----   | -----------------------  | -----   | ------------------------ |
+| node11 | 2x8  Sandy Bridge (avx)  | 256  Go | -                        |
+| node12 | 4x10 Broadwell (avx2)    | 128  Go | -                        |
+| node13 | 4x20 Skylake (avx2)      | 384  Go | -                        |
+| node14 | 2x64 Zen 3 (avx2)        | 1024 Go | -                        |
+| node15 | 2x28 Cascade Lake (avx2) | 768  Go | 1 x Quadro GV100 (32 Go) |
+| node16 | 2x10 Ivy Bridge (avx)    | 64   Go | -                        |
+| node17 | 4x16 Broadwell (avx2)    | 256  Go | -                        |
+| node18 | 2x8  Sandy Bridge (avx)  | 192  Go | ? x Tesla K20m (? Go)    |
+| node19 | 2x6  Nehalem (sse4_2)    | 35   Go | -                        |
 
+<!-- obtenu avec srun --nodelist=node11 ./pinxi --tty -Fxz -->
+
+Sur la [page ganglia](https://cinaps.imo.universite-paris-saclay.fr/), vous trouverez des graphiques sur l’utilisation des différents nœuds (RAM, CPU,...)
 
 ## Correspondants
 

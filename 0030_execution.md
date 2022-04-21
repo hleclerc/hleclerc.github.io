@@ -1,8 +1,8 @@
 # Exécution de commande
 
-La connexion ssh ne vous donne accès qu’à la machine "maître", qui ne sert que de système d'aiguillage et qui n’est pas dimensionnée pour faire des calculs. Pour profiter des possibilités du cluster, il faut passer par un système de file d’attente.
+La connexion ssh ne vous donne accès qu’à la machine "maître", qui ne sert que de système d'aiguillage et qui n’est pas dimensionnée pour faire des calculs. Pour profiter des possibilités du cluster, il faut passer par un système de *file d’attente*.
 
-Le gestionnaire que nous utilisons (slurm) est très bien [documenté sur internet](https://slurm.schedmd.com/documentation.html). Nous vous livrons ici une version synthétique qui correspond à l'usage le plus courant de notre cluster.
+Le gestionnaire que nous utilisons (slurm) est très bien [documenté sur internet](https://slurm.schedmd.com/documentation.html). Nous vous livrons ici une version synthétique, correspondant à l'usage le plus courant sur notre cluster.
 
 ## Lancement immédiat (srun)
 
@@ -13,76 +13,56 @@ srun [options de srun] ma_commande [options pour ma_commande]
 ```
 
 Voici quelques options importantes:
-* `-N` permet de spécifier le nombre (minimum) de nœuds sur lesquels lancer la commande. Si `-n` ou `-c` n'est pas spécifié, il y aura un seul processus par nœud et chaque processus pourra donc utiliser tous les cores de son nœud.
-* `-n` permet de spécifier le nombre de processus à lancer en parallèle. Si `-c` n'est pas spécifié, Slurm utilisera un "core" par processus de sorte qu'un nœud pourra se retrouver avec plusieurs processus.
-* `-c` permet de spécifier le nombre de core libres par processus.
-* `--mpi=pmi2` pour produire le même effet qu'un `mpirun`.
+* `-N` permet de spécifier le nombre minimum de nœuds (i.e. machine) sur lesquels lancer la commande. Si `-n` ou `-c` n'est pas spécifié (voir plus bas), il y aura un seul processus par nœud et chaque processus pourra donc utiliser tous les cores de son nœud via le multithreading (chaque processus gère le multithreading comme il l'entend, Slurm ne gère pas ces questions là).
+* `-n` permet de spécifier le nombre de processus à lancer en parallèle. Cette approche est à adopter notamment si vous ne gérez pas le multithreading dans vos processus. Si `-c` n'est pas spécifié, Slurm utilisera un "core" par processus de sorte qu'un nœud pourra se retrouver avec plusieurs processus.
+* `-c` permet de spécifier le nombre de core "alloué" par processus. Ce n'est pas un allocation *stricto sensu* vu que les processus réservent autant de threads qu'ils le souhaitent... mais ça permettra de fixer le nombre de HW threads que chaque processus pourra utiliser sans marcher sur les autres. Rq: pour une gestion des affinités, voir par exemple [cette page](https://slurm.schedmd.com/mc_support.html)
+* `--mpi=pmi2` pour produire le même effet qu'un `mpirun` (`mpirun` est remplacé par `srun` qui se charge de l'allocation ET d'associer un `rank` à chaque processus).
+* `--nodelist=...` permet de spécifier les nœuds à utiliser.
 
-Par défaut, Slurm lance les processus de façon indépendante avec des variable d'environnement différentes (comme `SLURM_LOCALID` qui donne le numéro du core sur le nœud et `SLURM_NODEID` qui donne le numéro du nœud). Si vous utilisez mpi, si vous voulez que `rank` et `size` soient corrects, il faut ajouter l'option `--mpi=pmi2` (et utiliser une commande Slurm à la place de `mpirun`, `mpiexec` ou autre).
+Par défaut, Slurm lance les processus de façon indépendante, et il n'y a que quelques variables d'environnement qui différent. Par exemple, `SLURM_PROCID` donne l'index du processus, `SLURM_NTASKS` donne le nombre de processus, etc... Cf. [cette page](https://slurm.schedmd.com/sbatch.html#lbAK) pour un tour des variables mises en place par slurm.
 
-## Lancement différé (sbatch)
+Comme écrit plus haut, si vous utilisez mpi et si vous voulez que `rank` et `size` soient corrects, il faut ajouter l'option `--mpi=pmi2` et utiliser une commande Slurm comme `srun` ou `sbatch` à la place de `mpirun`, `mpiexec` ou autre commande mpi.
 
-Pour envoyer un job dans la file d’attente, il faut utiliser la commande sbatch. Pour utiliser cette commande il faut créer un script bash qui va contenir à la fois les commandes pour lancer le programme et les options d’exécution (telles que les ressources nécessaires (la RAM, nombre de processeurs...), ou des options liées à la gestion du job (le nom du job, ...)).
+## Lancement différé et graph de taches (sbatch)
 
-sbatch is used to submit a job script for later execution. The script will typically contain one or more srun commands to launch parallel tasks.
+Pour envoyer un job dans la file d’attente sans bloquer le terminal (de sorte qu'il est possible de se déloguer sans stopper le calcul), vous pouvez utiliser la commande `sbatch`. Cette dernière prend en entrée un script bash, qui va contenir à la fois les commandes pour lancer le programme, et les options d’exécution telles que les ressources nécessaires (la RAM, nombre de processeurs...), ou des options liées à la gestion du job.
 
-Options supplied on the command line would override any options specified within the script
+Attention: `sbatch` ne se substitue pas à `srun`. Le script bash sert à définir le contexte, pour pouvoir ensuite y lancer une ou plusieurs commandes `srun`, qui pourront s'exécuter de façon séquentielle ou avec des dépendances fines.
 
+Voici un exemple de script avec un seul srun, qui lancer un script sur 2 nœuds :
 
+```bash
+#!/bin/bash 
+
+# -- Nom du calcul, répertoire de travail : 
+#SBATCH --job-name=nom_du_job
+#SBATCH --chdir=/workdir/votre_login/chemin_dossier 
+# -- Optionnel, pour être notifié par email : 
+#SBATCH --mail-type=BEGIN,END,FAIL
+#SBATCH --mail-user=adresse@email.com 
+# -- Sortie standard et d'erreur dans le fichier .output : 
+#SBATCH --output=./%j.stdout
+#SBATCH --error=./%j.stderr
+# -- Contexte matériel
+#SBATCH --nodes=2
+
+# En l'absence de srun, les commandes ne sont exécutée que sur *une seule machine*.
+# Cependant srun pourra utiliser les variables d'environnement en résultant
+conda activate mon_environnement
+module load mon_module
+
+# Pour une exécution en parallèle, il faut utiliser srun.
+# Par défaut srun utilise toutes les ressources demandées par sbatch
+#  et s'il y a plusieurs srun, ils sont exécutés de façon séquentielle.
+srun python mon_script.py
+```
 
 ## Suivi des jobs
 
-sattach is used to attach standard input, output, and error plus signal capabilities to a currently running job or job step. One can attach to and detach from jobs multiple times.
+`squeue` permet de voir les jobs en attente ou en train de tourner (`R` dans la colonne `ST`).
 
-scancel
+`sattach` permet d'attacher sur le terminal les E/S d'un job en train de tourner. Ça permet de surveiller l'avancée d'un job, ou par exemple d'interagir avec un debugger. `ctrl-c` permet de détacher de nouveau le job et de le laisser de nouveau tourner en fond (de manière non bloquante).
 
-squeue  reports the state of jobs or job steps. It has a wide variety of filtering, sorting, and formatting options. By default, it reports the running jobs in priority order and then the pending jobs in priority order.
+`scancel` permet permet de supprimer une soumission ou d’arrêter le job s'il est en cours d’exécution.
 
-sinfo
-
-##
-
-
-
-
-<!--
- 
-4.1.3-La commande srun dans le fichier .sh : A REDIGER
-4.1.4-Script bash basique :
-#!/bin/bash 
-
-# Nom du calcul, répertoire de travail : 
-#SBATCH  --job-name=nom_du_job
-#SBATCH --chdir=/workdir2/votre_login/chemin_dossier 
-# Optionnel, pour être notifié par email : 
-#SBATCH  --mail-type=BEGIN,END,FAIL
-#SBATCH --mail-user=adresse@email.com 
-# Sortie standard et d'erreur dans le fichier .output : 
-#SBATCH --output=./%j.stdout
-#SBATCH --error =./%j.stderr
-module load R/3.6.1 
-# Eventuellement assignation de quelques variables en entrée du code : 
-d=2 
-n=100 
-nloc=100 
-N=20 
-
-R --vanilla --slave "--args $d $n $nloc $N" < script_test.R > sortie 
-Vous pouvez télécharger un fichier bash d’exemple, exemple_r.sh pour un calcul non parallèle ainsi qu’un script R, script_test.R, associé.
-Un autre exemple (exemple_py.sh) non parallèle avec python (test.py).
-Un exemple (exemple_pe.sh) de calcul parallèle avec un script en C qui nécessite d’être compilé via le chargement du module rocks-openmpi et la commande make (qui nécessite le makefile).
-4.2-La commande sbatch
-Une fois que le script bash est créé, on peut lancer son exécution via la commande sbatch :
-sbatch exemple.sh 
-  5 - Autres commandes utiles
-La commande ’squeue’ liste les jobs soumis avec leur job_identifier. S’ils sont en cours d’exécution leur statut est r, s’ils sont en attente, leur statut est qw :
-squeue
-
-sstat donne des infos sur les ressources utilisées par un job
-
-La commande scancel permet de supprimer un job soumis et d’arrêter un job en cours d’exécution :
-scancel <job_id>
-La commande sacct permet de retrouver des infos sur un job terminé :
-sacct <job_id> 
-On pourra trouver une doc complète ici.
-Sur la page ganglia vous trouverez des graphiques sur l’utilisation du cluster et des différents noeuds (RAM, CPU,...). -->
+`sstat` donne des infos sur les ressources utilisées par un job
