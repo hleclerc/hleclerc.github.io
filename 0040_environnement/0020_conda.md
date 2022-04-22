@@ -1,6 +1,6 @@
 # Conda
 
-Pour une plus grande liberté, notamment pour les environnements Python mais pas que, [conda](https://docs.conda.io/en/latest/miniconda.html) vous permettra d'installer des environnements quasi-complets dans un de vos répertoire.
+Pour une plus grande liberté, notamment pour Python, mais pas que, [conda](https://docs.conda.io/en/latest/miniconda.html) vous permettra d'installer des environnements quasi-complets dans un de vos répertoire.
 
 Il y a une limite à ce qu'il est possible de faire sans les droits d'admin, mais bon nombre de programme et de librairie sont disponibles par ce biais. De plus, les environnements sont confinés : si par exemple vous installez un programme avec `pip` dans un environnement conda, ça ne modifiera que votre environnement conda.
 

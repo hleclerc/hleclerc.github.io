@@ -1,6 +1,6 @@
 # Module (pour les besoins les plus courants)
 
-Pour les environnements/librairies/outils les plus courants (ceux que nous avons installés), vous pouvez utiliser la commande `module`.
+Pour les environnements/librairies/outils les plus courants, vous pouvez tester la commande `module`.
 
 Cette dernière change les variables d'environnement du shell courant pour rendre accessible des programmes installés dans des répertoires qui ne sont pas du système.
 
@@ -38,7 +38,7 @@ Pour connaître la liste des modules chargés :
 module list 
 ```
 
-Enfin, pour décharger un module vous pouvez utiliser
+Enfin, pour décharger un module :
 
 ```bash
 module unload <nom_du_module> 
