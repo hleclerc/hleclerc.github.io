@@ -1,0 +1,386 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <title>Environnement de travail · HonKit</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 3.7.1">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="0010_module.html" />
+    
+    
+    <link rel="prev" href="../0030_execution.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../0010_se_connecter.html">
+            
+                <a href="../0010_se_connecter.html">
+            
+                    
+                    Se connecter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../0020_les_fichiers.html">
+            
+                <a href="../0020_les_fichiers.html">
+            
+                    
+                    Les fichiers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../0030_execution.html">
+            
+                <a href="../0030_execution.html">
+            
+                    
+                    Exécution
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Environnement de travail
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="0010_module.html">
+            
+                <a href="0010_module.html">
+            
+                    
+                    Module
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="0020_conda.html">
+            
+                <a href="0020_conda.html">
+            
+                    
+                    Conda
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="0030_singularity.html">
+            
+                <a href="0030_singularity.html">
+            
+                    
+                    Singularity
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../0090_documentation.html">
+            
+                <a href="../0090_documentation.html">
+            
+                    
+                    Documentation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            Published with HonKit
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Environnement de travail</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="chargement-de-lenvironnement-de-travail-interpréteur-compilateur">Chargement de l’environnement de travail (interpréteur, compilateur...)</h1>
+<p>Pour faire cohabiter les différentes versions des programmes que les utilisateurs souhaitent utiliser, l’environnement par défaut est minimal. Parmi les outils installés et disponibles de façon immédiate, il y a bien sûr un interpréteur python, une version de g++, etc... mais pas forcément la combinaison qui vous intéresse, avec l&apos;ensemble des librairies dont vous avez besoin.</p>
+<p>Pour ajouter ou rendre disponible des programmes ou des librairies, nous proposons 3 types de solution:</p>
+<ul>
+<li>la commande <code>module</code> permet en changeant des variables d&apos;environnement (<code>PATH</code>, ...) de rendre disponible des programmes que nous avons installés dans des répertoires non-système. Il y a un nombre limité de modules disponibles, mais si ce dont vous avez besoin y est, cette solution est a privilégier (disponibilité immédiate, occupation disque, ...).</li>
+<li><code>conda</code> permet d&apos;installer ses propres versions d&apos;un programme et de ses dépendances, en restant dans l&apos;espace utilisateur (pas besoin de droit d&apos;admin). Beaucoup de programmes et de librairies sont disponibles par ce biais, dans la limite de ce qu&apos;il est possible sans les droits d&apos;admin.</li>
+<li><code>singularity</code> peut être vu comme &quot;le docker du calcul&quot;. Il permet, sans les droits d&apos;admin, de définir un système complet qui vient se raccorder sur le noyau en cours (qu&apos;on a rarement besoin de fixer à une version précise). Il devient donc possible d&apos;installer à peu près tout ce qu&apos;on veut, avec des images qu&apos;on peut aussi copier et utiliser à l&apos;identique sur sa machine personnelle (c&apos;est à dire ailleurs que sur le cluster) pour développer et tester en assurant une très bonne reproducibilité.</li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../0030_execution.html" class="navigation navigation-prev " aria-label="Previous page: Exécution">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="0010_module.html" class="navigation navigation-next " aria-label="Next page: Module">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Environnement de travail","level":"1.5","depth":1,"next":{"title":"Module","level":"1.5.1","depth":2,"path":"0040_environnement/0010_module.md","ref":"0040_environnement/0010_module.md","articles":[]},"previous":{"title":"Exécution","level":"1.4","depth":1,"path":"0030_execution.md","ref":"0030_execution.md","articles":[]},"articles":[{"title":"Module","level":"1.5.1","depth":2,"path":"0040_environnement/0010_module.md","ref":"0040_environnement/0010_module.md","articles":[]},{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},{"title":"Singularity","level":"1.5.3","depth":2,"path":"0040_environnement/0030_singularity.md","ref":"0040_environnement/0030_singularity.md","articles":[]}],"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0040_environnement/README.md","mtime":"2022-04-22T03:53:44.299Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-04-22T11:05:08.307Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -3,7 +3,7 @@
 <html lang="" >
     <head>
         <meta charset="UTF-8">
-        <title>Introduction · HonKit</title>
+        <title>Les fichiers · HonKit</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="HonKit 3.7.1">
@@ -56,8 +56,10 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="0010_se_connecter.html" />
+    <link rel="next" href="0030_execution.html" />
     
+    
+    <link rel="prev" href="0010_se_connecter.html" />
     
 
     </head>
@@ -86,7 +88,7 @@
         
         
     
-        <li class="chapter active" data-level="1.1" data-path="./">
+        <li class="chapter " data-level="1.1" data-path="./">
             
                 <a href="./">
             
@@ -112,7 +114,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3" data-path="0020_les_fichiers.html">
+        <li class="chapter active" data-level="1.3" data-path="0020_les_fichiers.html">
             
                 <a href="0020_les_fichiers.html">
             
@@ -239,7 +241,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >Introduction</a>
+        <a href="." >Les fichiers</a>
     </h1>
 </div>
 
@@ -254,87 +256,24 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="cluster-de-calcul">Cluster de calcul</h1>
-<h2 id="composition">Composition</h2>
-<p>Le cluster se compose de 9 machines avec les capacités suivantes :</p>
-<table>
-<thead>
-<tr>
-<th>Nom</th>
-<th>CPUs</th>
-<th>Mem</th>
-<th>GPUs</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>node11</td>
-<td>2x8  Sandy Bridge (avx)</td>
-<td>256  Go</td>
-<td>1 x Tesla K20m (5 Go, 3.524 TFLOPS)</td>
-</tr>
-<tr>
-<td>node12</td>
-<td>4x10 Broadwell (avx2)</td>
-<td>128  Go</td>
-<td>-</td>
-</tr>
-<tr>
-<td>node13</td>
-<td>4x20 Skylake (avx2)</td>
-<td>384  Go</td>
-<td>-</td>
-</tr>
-<tr>
-<td>node14</td>
-<td>2x64 Zen 3 (avx2)</td>
-<td>1024 Go</td>
-<td>-</td>
-</tr>
-<tr>
-<td>node15</td>
-<td>2x28 Cascade Lake (avx2)</td>
-<td>768  Go</td>
-<td>1 x Quadro GV100 (32 Go, 16.66 TFLOPS)</td>
-</tr>
-<tr>
-<td>node16</td>
-<td>2x10 Ivy Bridge (avx)</td>
-<td>64   Go</td>
-<td>-</td>
-</tr>
-<tr>
-<td>node17</td>
-<td>4x16 Broadwell (avx2)</td>
-<td>256  Go</td>
-<td>-</td>
-</tr>
-<tr>
-<td>node18</td>
-<td>2x8  Sandy Bridge (avx)</td>
-<td>192  Go</td>
-<td>1 x Tesla K20m (5 Go, 3.524 TFLOPS)</td>
-</tr>
-<tr>
-<td>node19</td>
-<td>2x6  Nehalem (sse4_2)</td>
-<td>35   Go</td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-<!-- obtenu avec srun --nodelist=node11 ./pinxi --tty -Fxz -->
-<!-- Quadro GV100 Bandwidth 868.4 GB/s -->
-<!-- Tesla K20m Bandwidth 208.0 GB/s -->
-<p>Vous trouverez des graphiques sur l’utilisation des différents nœuds (RAM, CPU,...) sur la <a href="https://cinaps.imo.universite-paris-saclay.fr/" target="_blank">page ganglia</a>, </p>
-<h2 id="correspondants">Correspondants</h2>
-<p>Pour toute question technique non couverte ou peu claire dans la documentation, vous pouvez contacter:</p>
-<ul>
-<li>Benjamin.Auder@math.u-psud.fr (bureau 2A3)</li>
-<li>Sylvain.Faure@math.u-psud.fr (bureau 2D3)</li>
-<li>Hugo.Leclerc@math.u-psud.fr (bureau 2A3)</li>
-<li>Suzanne.Varet@math.u-psud.fr (bureau 2D3)</li>
-</ul>
+                                <h1 id="travailler-avec-les-fichiers-sur-le-cluster">Travailler avec les fichiers sur le cluster</h1>
+<p>Votre repertoire $HOME est directement accessible depuis le cluster mais le serveur associé n&apos;est <em>pas</em> dimensionné pour les calculs.</p>
+<p>Il est fortement recommandé de passer par les répertoires <em>workdir</em> qui sont dédiés à cet usage. Ces derniers sont accessible via <code>/workdir/&lt;votre_login&gt;</code> ou <code>/workdir2/&lt;votre_login&gt;</code> depuis le cluster (une fois connecté dessus).</p>
+<p>Si aucun de ces chemin n&apos;est accessible, vous pouvez passer voir le SVP informatique ou un.e ingénieur.e calcul qui vous créera tout ce qu&apos;il faut.</p>
+<h2 id="accès-depuis-les-outils-graphiques">Accès depuis les outils graphiques</h2>
+<p>Si vous êtes sur un poste linux, vous pouvez utiliser n’importe quel navigateur de fichier (konqueror, dolphin, nautilus...) et utiliser l’adresse <code>sftp://cinaps</code> pour accéder au répertoires et fichiers comme s’ils étaient en local, faire des transferts, etc... Pour Mac ou Windows, vous pouvez installer un logiciel tel que Cyberduck ou Filezilla, par ailleurs documenté <a href="https://intranet.imo.universite-paris-saclay.fr/-Stockage-sauvegarde-transfert-de-fichiers-72-" target="_blank">sur la page de l’intranet qui traite des transferts de fichiers de façon générique</a>.</p>
+<p>À noter aussi: certain IDE comme <a href="https://code.visualstudio.com/" target="_blank">visual code</a> permettent de <a href="https://code.visualstudio.com/docs/remote/ssh" target="_blank">travailler sur des machines distantes comme si on était en local</a>. Cette solution est extrêmement pratique si vous avez l&apos;habitude d&apos;utiliser un IDE, ce dernier gérant de façon rapide et transparente tout le processus de développement sur la machine distante (la synchronisation des fichiers, la compilation, etc...).</p>
+<h2 id="montage-de-repertoires-distant">Montage de repertoires distant</h2>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh" target="_blank">sshfs</a> permet de &quot;monter&quot; un répertoire distant comme s&apos;il était local. Ce répertoire sera ensuite accessible par <em>tout</em> votre système que ça soit pour les outils graphiques ou pour la ligne de commande.</p>
+<p>Une fois installé, vous pouvez par exemple taper</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># à ne faire qu&apos;une seule fois pour créer un repertoire vide</span>
+mkdir mon_rep
+<span class="hljs-comment"># puis</span>
+sshfs cinaps:/workdir/&lt;votre_login&gt; mon_rep
+</code></pre>
+<p>et <code>mon_rep</code> contiendra un lien synchronisé vers le contenu de votre workdir.</p>
+<h2 id="transferts-en-ligne-de-commande">Transferts en ligne de commande</h2>
+<p>Pour les plus courageu.ses.x, <code>scp</code> ou <code>rsync</code> permettent de réaliser les transfert à la main (<code>rsync</code> étant plus rapide lorsqu&apos;il y a beaucoup de fichiers).</p>
 
                                 
                                 </section>
@@ -362,8 +301,12 @@
 
             
                 
+                <a href="0010_se_connecter.html" class="navigation navigation-prev " aria-label="Previous page: Se connecter">
+                    <i class="fa fa-angle-left"></i>
+                </a>
                 
-                <a href="0010_se_connecter.html" class="navigation navigation-next navigation-unique" aria-label="Next page: Se connecter">
+                
+                <a href="0030_execution.html" class="navigation navigation-next " aria-label="Next page: Exécution">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -374,7 +317,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"Se connecter","level":"1.2","depth":1,"path":"0010_se_connecter.md","ref":"0010_se_connecter.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2022-04-22T10:45:37.130Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-04-22T11:05:53.399Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Les fichiers","level":"1.3","depth":1,"next":{"title":"Exécution","level":"1.4","depth":1,"path":"0030_execution.md","ref":"0030_execution.md","articles":[]},"previous":{"title":"Se connecter","level":"1.2","depth":1,"path":"0010_se_connecter.md","ref":"0010_se_connecter.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0020_les_fichiers.md","mtime":"2022-04-20T23:56:05.157Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-04-22T11:05:08.307Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
