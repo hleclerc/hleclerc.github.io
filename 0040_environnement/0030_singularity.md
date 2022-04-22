@@ -91,46 +91,71 @@ Singularity s'occupe automatiquement de transférer les variables d'environnemen
 srun -n2 --mpi=pmi2 singularity exec mpi4py_latest.sif python test_mpi.py
 ```
 
-## Accès par ssh (pour les IDEs)
+## Accès par ssh, configuration des IDEs
 
 Vous pouvez enregistrer l'environnement comme une machine sur laquelle se connecter avec ssh en ajoutant un `RemoteCommand` dans votre `.ssh/config` :
 
 ```bash
-Host mon_env
+Host <mon_env>
+    # ProxyJump <cinaps_ou_autre> si c'est à lancer sur une autre machine
     RemoteCommand singularity shell <mon_image.sif>
     HostName localhost
+    RequestTTY yes
 ```
 
+Après ça vous pourrez entre autres y développer à distance avec l'aide de votre IDE favori.
 
-Pour que l'IDE ait connaissance des librairies installées (pour l'autocomplétion par exemple) et puisse lancer des compilations ou des debugs dans cet environnement, vous pouvez le référencer comme une machine distante dans votre `.ssh/config`. Par exemple, en y ajoutant 
+Pour visual code cependant, il faudra penser à ajouter `"remote.SSH.enableRemoteCommand": true` dans `settings.json` (accessible via `ctrl-shift-p` puis `Open settings (JSON)`). Après ça, vous pouvez lancer la commande `Remote-SSH: connect to host` pour vous connecter à `<mon_env>`. Vous aurez ensuite accès à l'autocomplétion qui correspond à votre environnement.
 
+![code_singularity](code_singularity.png)
 
-Ensuite, vous pouvez utiliser les capacité "remote ssh" de votre IDE (ctrl-shift-p puis `remote-ssh connect to host` pour ce qui concerne visual code) pour vous connecter sur cette machine virtuelle (ce chroot pour être plus précis).
+## Modification du contenu des images
 
+Par défaut, les fichiers du système géré par Singularity sont en lecture seule.
 
-
-## Modification d'images
-
-
-## Définition d'images
-
-setbuid
+Une possibilité pour changer ces fichiers est de passer par un "bac à sable" : les fichiers du système seront stockés dans un répertoire modifiable par Singularity.
 
 ```bash
-# singularity build --fakeroot test.sif test.def
+# pour charger une image, on passe par build à la place de pull
+singularity build --sandbox lolcow/ library://sylabs-jms/testing/lolcow
+# on ajoute le flag --writable à shell, run ou exec
+singularity shell --writable lolcow_latest.sif
+# => on peut faire un `apt install` ou autre
+```
 
-Bootstrap: library
+## Définition d'une nouvelle image
+
+Pour définir le contenu d'un fichier `.sif`, Singularity propose son propre format.
+
+Vous n'aurez pas besoin d'être root pour construire une image. Cependant, il faut que le fichier `/etc/setbuid` soit défini pour vous, ce qui n'est pas le cas par défaut pour tous les systèmes. Si vous rencontrez un problème à ce sujet là, n'hésitez pas à nous contacter.
+
+Voici un exemple de fichier de définition d'image
+
+```bash
+# test.def
+Bootstrap: library # ou "docker" par exemple si vous prenez l'image de base dans dockerhub
 From: ubuntu:21.04
 Stage: build
 
 %post
+    # un exemple où on charge quelques paquets
     apt-get -y update 
     apt-get -y install software-properties-common 
     add-apt-repository -y universe 
     apt-get -y update 
-    apt-get -y install python-is-python3 gcc libopenmpi-dev
+    apt-get -y install gcc libopenmpi-dev
 
 %runscript
     echo "Container was created $NOW"
     echo "Arguments received: $*"
 ```
+
+On peut la compiler avec :
+
+```bash
+singularity build --fakeroot test.sif test.def
+```
+
+et utiliser le `.sif` résultant comme les autres `.sif`.
+
+Vous trouverez une description plus détaillée dans [cette page](https://sylabs.io/guides/3.5/user-guide/definition_files.html).

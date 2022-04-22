@@ -8,5 +8,4 @@
     * [Module](0040_environnement/0010_module.md)
     * [Conda](0040_environnement/0020_conda.md)
     * [Singularity](0040_environnement/0030_singularity.md)
-* [Calcul parallèle](0050_calcul_parallele.md)
 * [Documentation](0090_documentation.md)

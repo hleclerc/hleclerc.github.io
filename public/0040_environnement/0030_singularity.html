@@ -56,7 +56,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../0050_calcul_parallele.html" />
+    <link rel="next" href="../0090_documentation.html" />
     
     
     <link rel="prev" href="0020_conda.html" />
@@ -198,20 +198,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6" data-path="../0050_calcul_parallele.html">
-            
-                <a href="../0050_calcul_parallele.html">
-            
-                    
-                    Calcul parallèle
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.7" data-path="../0090_documentation.html">
+        <li class="chapter " data-level="1.6" data-path="../0090_documentation.html">
             
                 <a href="../0090_documentation.html">
             
@@ -323,34 +310,52 @@ srun -w node15 singularity <span class="hljs-built_in">exec</span> --nv pytorch_
 <p>Singularity s&apos;occupe automatiquement de transférer les variables d&apos;environnement nécessaire au fonctionnement de mpi. Pensez simplement à ajouter <code>--mpi=pmi2</code> dans les flags de <code>srun</code>, comme dans :</p>
 <pre><code class="lang-bash">srun -n2 --mpi=pmi2 singularity <span class="hljs-built_in">exec</span> mpi4py_latest.sif python test_mpi.py
 </code></pre>
-<h2 id="accès-par-ssh-pour-les-ides">Accès par ssh (pour les IDEs)</h2>
+<h2 id="accès-par-ssh-configuration-des-ides">Accès par ssh, configuration des IDEs</h2>
 <p>Vous pouvez enregistrer l&apos;environnement comme une machine sur laquelle se connecter avec ssh en ajoutant un <code>RemoteCommand</code> dans votre <code>.ssh/config</code> :</p>
-<pre><code class="lang-bash">Host mon_env
+<pre><code class="lang-bash">Host &lt;mon_env&gt;
+    <span class="hljs-comment"># ProxyJump &lt;cinaps_ou_autre&gt; si c&apos;est à lancer sur une autre machine</span>
     RemoteCommand singularity shell &lt;mon_image.sif&gt;
     HostName localhost
+    RequestTTY yes
 </code></pre>
-<p>Pour que l&apos;IDE ait connaissance des librairies installées (pour l&apos;autocomplétion par exemple) et puisse lancer des compilations ou des debugs dans cet environnement, vous pouvez le référencer comme une machine distante dans votre <code>.ssh/config</code>. Par exemple, en y ajoutant </p>
-<p>Ensuite, vous pouvez utiliser les capacité &quot;remote ssh&quot; de votre IDE (ctrl-shift-p puis <code>remote-ssh connect to host</code> pour ce qui concerne visual code) pour vous connecter sur cette machine virtuelle (ce chroot pour être plus précis).</p>
-<h2 id="modification-dimages">Modification d&apos;images</h2>
-<h2 id="définition-dimages">Définition d&apos;images</h2>
-<p>setbuid</p>
-<pre><code class="lang-bash"><span class="hljs-comment"># singularity build --fakeroot test.sif test.def</span>
-
-Bootstrap: library
+<p>Après ça vous pourrez entre autres y développer à distance avec l&apos;aide de votre IDE favori.</p>
+<p>Pour visual code cependant, il faudra penser à ajouter <code>&quot;remote.SSH.enableRemoteCommand&quot;: true</code> dans <code>settings.json</code> (accessible via <code>ctrl-shift-p</code> puis <code>Open settings (JSON)</code>). Après ça, vous pouvez lancer la commande <code>Remote-SSH: connect to host</code> pour vous connecter à <code>&lt;mon_env&gt;</code>. Vous aurez ensuite accès à l&apos;autocomplétion qui correspond à votre environnement.</p>
+<p><img src="code_singularity.png" alt="code_singularity"></p>
+<h2 id="modification-du-contenu-des-images">Modification du contenu des images</h2>
+<p>Par défaut, les fichiers du système géré par Singularity sont en lecture seule.</p>
+<p>Une possibilité pour changer ces fichiers est de passer par un &quot;bac à sable&quot; : les fichiers du système seront stockés dans un répertoire modifiable par Singularity.</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># pour charger une image, on passe par build à la place de pull</span>
+singularity build --sandbox lolcow/ library://sylabs-jms/testing/lolcow
+<span class="hljs-comment"># on ajoute le flag --writable à shell, run ou exec</span>
+singularity shell --writable lolcow_latest.sif
+<span class="hljs-comment"># =&gt; on peut faire un `apt install` ou autre</span>
+</code></pre>
+<h2 id="définition-dune-nouvelle-image">Définition d&apos;une nouvelle image</h2>
+<p>Pour définir le contenu d&apos;un fichier <code>.sif</code>, Singularity propose son propre format.</p>
+<p>Vous n&apos;aurez pas besoin d&apos;être root pour construire une image. Cependant, il faut que le fichier <code>/etc/setbuid</code> soit défini pour vous, ce qui n&apos;est pas le cas par défaut pour tous les systèmes. Si vous rencontrez un problème à ce sujet là, n&apos;hésitez pas à nous contacter.</p>
+<p>Voici un exemple de fichier de définition d&apos;image</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># test.def</span>
+Bootstrap: library <span class="hljs-comment"># ou &quot;docker&quot; par exemple si vous prenez l&apos;image de base dans dockerhub</span>
 From: ubuntu:21.04
 Stage: build
 
 %post
+    <span class="hljs-comment"># un exemple où on charge quelques paquets</span>
     apt-get -y update 
     apt-get -y install software-properties-common 
     add-apt-repository -y universe 
     apt-get -y update 
-    apt-get -y install python-is-python3 gcc libopenmpi-dev
+    apt-get -y install gcc libopenmpi-dev
 
 %runscript
     <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Container was created <span class="hljs-variable">$NOW</span>&quot;</span>
     <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Arguments received: $*&quot;</span>
 </code></pre>
+<p>On peut la compiler avec :</p>
+<pre><code class="lang-bash">singularity build --fakeroot test.sif test.def
+</code></pre>
+<p>et utiliser le <code>.sif</code> résultant comme les autres <code>.sif</code>.</p>
+<p>Vous trouverez une description plus détaillée dans <a href="https://sylabs.io/guides/3.5/user-guide/definition_files.html" target="_blank">cette page</a>.</p>
 
                                 
                                 </section>
@@ -383,7 +388,7 @@ Stage: build
                 </a>
                 
                 
-                <a href="../0050_calcul_parallele.html" class="navigation navigation-next " aria-label="Next page: Calcul parallèle">
+                <a href="../0090_documentation.html" class="navigation navigation-next " aria-label="Next page: Documentation">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -394,7 +399,7 @@ Stage: build
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Singularity","level":"1.5.3","depth":2,"next":{"title":"Calcul parallèle","level":"1.6","depth":1,"path":"0050_calcul_parallele.md","ref":"0050_calcul_parallele.md","articles":[]},"previous":{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0040_environnement/0030_singularity.md","mtime":"2022-04-22T04:43:45.811Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-04-22T04:55:41.403Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Singularity","level":"1.5.3","depth":2,"next":{"title":"Documentation","level":"1.6","depth":1,"path":"0090_documentation.md","ref":"0090_documentation.md","articles":[]},"previous":{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0040_environnement/0030_singularity.md","mtime":"2022-04-22T10:33:29.425Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-04-22T10:34:14.021Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
