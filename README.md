@@ -17,6 +17,8 @@ Le cluster se compose de 9 machines avec les capacités suivantes :
 | node19 | 2x6  Nehalem (sse4_2)    | 35   Go | -                                      |
 
 <!-- obtenu avec srun --nodelist=node11 ./pinxi --tty -Fxz -->
+<!-- Quadro GV100 Bandwidth 868.4 GB/s -->
+<!-- Tesla K20m Bandwidth 208.0 GB/s -->
 
 Vous trouverez des graphiques sur l’utilisation des différents nœuds (RAM, CPU,...) sur la [page ganglia](https://cinaps.imo.universite-paris-saclay.fr/), 
 
