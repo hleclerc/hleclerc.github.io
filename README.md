@@ -18,7 +18,7 @@ Le cluster se compose de 9 machines avec les capacités suivantes :
 
 <!-- obtenu avec srun --nodelist=node11 ./pinxi --tty -Fxz -->
 
-Sur la [page ganglia](https://cinaps.imo.universite-paris-saclay.fr/), vous trouverez des graphiques sur l’utilisation des différents nœuds (RAM, CPU,...)
+Vous trouverez des graphiques sur l’utilisation des différents nœuds (RAM, CPU,...) sur la [page ganglia](https://cinaps.imo.universite-paris-saclay.fr/), 
 
 ## Correspondants
 

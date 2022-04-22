@@ -1,110 +1,118 @@
-# Chargement de l’environnement de travail (interpréteur, compilateur...)
+# Singularity
 
-Pour faire cohabiter les différentes versions des programmes que les utilisateurs souhaitent utiliser, l’environnement par défaut est minimal.
+Singularity peut être vu comme le "docker du calcul". Il résout tous les problèmes d'environnement et permettant, sans les droit root, de définir un système complet qui vient se raccorder sur le noyau en cours.
 
-## module (pour les besoins les plus courants)
+Les "images" (qui définissent ce sur-système) peuvent par ailleurs être copiées et utilisées à l'identique sur le cluster comme sur sa machine personnelle. Ça permet d'utiliser les mêmes environnements, interpréteurs et compilateurs sur votre machine et sur le cluster.
 
-Pour les environnements/librairies/outils les plus courants (ceux que nous avons installés), vous pouvez utiliser la commande `module`.
+Par ailleurs, il existe une quantité énorme d'images déjà prêtes, proposées par des entreprises ou la communauté. Singularity permet en particulier de charger des images docker, comme celles - très nombreuses - que vous pouvez trouver sur [dockerhub](https://hub.docker.com/). Vous pourrez aussi trouver un certain nombre d'images sur [cloud.sylabs.io](https://cloud.sylabs.io/library/) (plus orienté calcul, mais dockerhub n'est pas en reste).
 
-Par exemple, si vous voulez lancer un programme avec R version 3.5.3, vous pouvez taper
+## Installation
 
-```bash
-module load R/3.5.3
-```
-
-et le shell dans lequel cette commande a été tapée aura accès à cette version de R (exécutable, librairies, etc...).
-
-Pour connaître la liste des modules disponibles (C++, Python, R, etc...), vous pouvez taper
+Singularity est disponible sur le cluster via un module. Pour l'activer, vous pouvez taper
 
 ```bash
-module avail
+module load Singularity
 ```
 
-Pour connaitre la liste des modules chargés :
+C'est ce n'est pas déjà fait, vous pouvez aussi [l'installer sur votre machine](https://sylabs.io/guides/3.0/user-guide/installation.html) (et c'est conseillé pour tester et préparer de façon simple).
+
+## Récupération d'une image déjà prête
+
+Pour charger une image déjà préparée, on utilise la commande `pull` :
 
 ```bash
-module list 
+# on fait un exemple avec la librairie fenics qui est
+# notoirement difficile à installer par d'autres biais
+singularity pull docker://pymor/fenics_py3.8
 ```
 
-Enfin, on peut détacher un module via
+Cette commande crée un fichier `.sif`, qui contient toutes les données de l'image. On peut copier et utiliser ce fichier où on veut (y compris en dehors du cluster), pourvu qu'on soit sur le même type d'architecture de base (x86, arm, ...).
+
+## Utilisation du fichier `.sif`
+
+### Shell interactif
+
+Il est possible de lancer un shell interactif, comme dans :
 
 ```bash
-module unload <nom_du_module> 
+singularity shell fenics_py3.8_latest.sif
+# > ... vous pouvez taper n'importe quelle commande du shell choisi
 ```
 
-## conda (plutôt pour Python)
+### Liens vers les répertoires de l'hôte
 
-Pour une plus grande liberté sur les environnements Python, [miniconda](https://docs.conda.io/en/latest/miniconda.html) vous permettra d'installer des environnements quasi-complets en local.
+Singularity met automatiquement en place un lien vers votre $HOME, en plus du répertoire dans lequel la commande est lancée.
 
-Compte-tenu de la taille des répertoires générés, nous vous conseillons d'installer les environnements dans votre workdir.
-
-Conda fonctionne bien pour les modules Python qui ne demandent pas de dépendances "système" compliquées.
-
-## singularity (pour tous les environnements)
-
-Singularity peut être vu comme le "docker du calcul". Il résoud tous les problèmes d'environnement au prix d'une besoin de stockage légèrement plus élevé (mais pas si gigantesque par rapport à conda par exemple)
-
-Il permet de définir un système complet sans nécessiter d'accès root. Il devient donc possible d'installer n'importe quel package dans un environnement confiné.
-
-Les images peuvent par ailleurs être utilisées sur le cluster comme en local, permettant d'utiliser les mêmes environnements et compilations sur votre machine et sur le cluster.
-
-Pour installer singularity en local, vous pourrez trouver de [très bons tutoriels](https://sylabs.io/guides/3.0/user-guide/installation.html). Sur le cluster, Singularity est disponible via les modules (`module load Singularity`)
-
-### Un exemple avec pytorch
-
-Singularity peut créer des images avec son propre format de description ou à partir de données docker. Une grande quantité d'image sont référencées notamment dans les serveurs de sylabs.io (`singularity search pytorch` par exemple) ou [dockerhub](https://hub.docker.com/).
-
-Si par exemple on choisit la version officielle, on pourra taper :
+Si ce n'est pas suffisant, vous pouvez ajouter des liens vers d'autres répertoire de l'hôte avec l'option `--bind`, comme dans
 
 ```bash
-singularity pull docker://pytorch/pytorch
+singularity shell --bind /workdir/<login> fenics_py3.8_latest.sif
+# > ls /workdir/<login> vous donnera bien le contenu de votre workdir
 ```
 
-qui créera un fichier `pytorch.sif`, utilisable pour lancer une ligne de commande
+### Exécution de programme
+
+On peut demander l'exécution directe un programme avec `exec` :
 
 ```bash
-singularity shell pytorch.sif
+singularity exec fenics_py3.8_latest.sif python ft01_poisson.py
 ```
 
-ou pour exécuter un programme (par exemple un script python)
+Par ailleurs, si l'image contient un exécutable à lancer par défaut, vous pouvez utiliser `run` :
 
 ```bash
-singularity run pytorch.sif python mon_fichier.py [mes options]
+singularity pull docker://sylabsio/lolcow
+singularity run lolcow_latest.sif 
+ _______________________________
+< Fri Apr 22 07:25:20 CEST 2022 >
+ -------------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
 ```
 
-### Images les plus courantes
-
-Afin 
-
-
-### GPU
+## GPU
 
 Pour donner accès aux GPUs, il suffit d'ajouter `--nv` aux options de lancement (`run`, `shell`, ...) comme dans :
 
 ```bash
-singularity shell --nv pytorch_latest.sif
-# nvidia-smi devrait vous lister les GPU disponibles
+singularity pull docker://bitnami/pytorch
+# on lance nvidia-smi sur le noeud 15, dans l'environnement pytorch_latest.sif
+srun -w node15 singularity exec --nv pytorch_latest.sif nvidia-smi
 ```
 
-### MPI
+## MPI
 
-TODO
+Singularity s'occupe automatiquement de transférer les variables d'environnement nécessaire au fonctionnement de mpi. Pensez simplement à ajouter `--mpi=pmi2` dans les flags de `srun`, comme dans :
 
-### Accès à l'environnement depuis un IDE
+```bash
+srun -n2 --mpi=pmi2 singularity exec mpi4py_latest.sif python test_mpi.py
+```
 
-Pour que l'IDE ait connaissance des librairies installées (pour l'autocomplétion par exemple) et puisse lancer des compilations ou des debugs dans cet environnement, vous pouvez le référencer comme une machine distante dans votre `.ssh/config`. Par exemple, en y ajoutant 
+## Accès par ssh (pour les IDEs)
+
+Vous pouvez enregistrer l'environnement comme une machine sur laquelle se connecter avec ssh en ajoutant un `RemoteCommand` dans votre `.ssh/config` :
 
 ```bash
 Host mon_env
-    RemoteCommand singularity shell /.../le.sif # pytorch_latest.sif sur l'exemple précédant
+    RemoteCommand singularity shell <mon_image.sif>
     HostName localhost
 ```
+
+
+Pour que l'IDE ait connaissance des librairies installées (pour l'autocomplétion par exemple) et puisse lancer des compilations ou des debugs dans cet environnement, vous pouvez le référencer comme une machine distante dans votre `.ssh/config`. Par exemple, en y ajoutant 
+
 
 Ensuite, vous pouvez utiliser les capacité "remote ssh" de votre IDE (ctrl-shift-p puis `remote-ssh connect to host` pour ce qui concerne visual code) pour vous connecter sur cette machine virtuelle (ce chroot pour être plus précis).
 
 
 
-### Création d'images
+## Modification d'images
+
+
+## Définition d'images
 
 setbuid
 

@@ -269,78 +269,32 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="chargement-de-lenvironnement-de-travail-interpréteur-compilateur">Chargement de l’environnement de travail (interpréteur, compilateur...)</h1>
-<p>Pour faire cohabiter les différentes versions des programmes que les utilisateurs souhaitent utiliser, l’environnement par défaut est minimal.</p>
-<h2 id="module-pour-les-besoins-les-plus-courants">module (pour les besoins les plus courants)</h2>
-<p>Pour les environnements/librairies/outils les plus courants (ceux que nous avons installés), vous pouvez utiliser la commande <code>module</code>.</p>
-<p>Par exemple, si vous voulez lancer un programme avec R version 3.5.3, vous pouvez taper</p>
-<pre><code class="lang-bash">module load R/3.5.3
+                                <h1 id="conda">Conda</h1>
+<p>Pour une plus grande liberté, notamment pour les environnements Python mais pas que, <a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank">conda</a> vous permettra d&apos;installer des environnements quasi-complets dans un de vos répertoire.</p>
+<p>Il y a une limite à ce qu&apos;il est possible de faire sans les droits d&apos;admin, mais bon nombre de programme et de librairie sont disponibles par ce biais. De plus, les environnements sont confinés : si par exemple vous installez un programme avec <code>pip</code> dans un environnement conda, ça ne modifiera que votre environnement conda.</p>
+<p>Pour savoir si un programme ou une librairie est installable par ce biais, vous pouvez aller sur <a href="https://anaconda.org/" target="_blank">anaconda.org</a>.</p>
+<h1 id="installation">Installation</h1>
+<p>Une fois connecté sur cinaps, vous pouvez taper:</p>
+<pre><code class="lang-bash">wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
 </code></pre>
-<p>et le shell dans lequel cette commande a été tapée aura accès à cette version de R (exécutable, librairies, etc...).</p>
-<p>Pour connaître la liste des modules disponibles (C++, Python, R, etc...), vous pouvez taper</p>
-<pre><code class="lang-bash">module avail
+<p>Attention, en réponse à <code>Miniconda3 will now be installed into this location:...</code>, compte tenu de la place que prennent les environnements, <em>il est vivement conseillé d&apos;installer les environnements dans votre <code>workdir</code></em> (par exemple <code>/workdir/&lt;login&gt;/.miniconda</code>).</p>
+<h1 id="création-denvironnement">Création d&apos;environnement</h1>
+<p>Une fois l&apos;environnement de base mis en place, vous pouvez créer un environnement spécifique avec </p>
+<pre><code class="lang-bash">conda create --name &lt;un_nom_que_vous_choisissez&gt;
 </code></pre>
-<p>Pour connaitre la liste des modules chargés :</p>
-<pre><code class="lang-bash">module list
+<p>Vous pouvez activer cet environnement avec :</p>
+<pre><code class="lang-bash">conda activate &lt;un_nom_que_vous_choisissez&gt;
 </code></pre>
-<p>Enfin, on peut détacher un module via</p>
-<pre><code class="lang-bash">module unload &lt;nom_du_module&gt;
+<p>puis en sortir avec :</p>
+<pre><code class="lang-bash">conda deactivate
 </code></pre>
-<h2 id="conda-plutôt-pour-python">conda (plutôt pour Python)</h2>
-<p>Pour une plus grande liberté sur les environnements Python, <a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank">miniconda</a> vous permettra d&apos;installer des environnements quasi-complets en local.</p>
-<p>Compte-tenu de la taille des répertoires générés, nous vous conseillons d&apos;installer les environnements dans votre workdir.</p>
-<p>Conda fonctionne bien pour les modules Python qui ne demandent pas de dépendances &quot;système&quot; compliquées.</p>
-<h2 id="singularity-pour-tous-les-environnements">singularity (pour tous les environnements)</h2>
-<p>Singularity peut être vu comme le &quot;docker du calcul&quot;. Il résoud tous les problèmes d&apos;environnement au prix d&apos;une besoin de stockage légèrement plus élevé (mais pas si gigantesque par rapport à conda par exemple)</p>
-<p>Il permet de définir un système complet sans nécessiter d&apos;accès root. Il devient donc possible d&apos;installer n&apos;importe quel package dans un environnement confiné.</p>
-<p>Les images peuvent par ailleurs être utilisées sur le cluster comme en local, permettant d&apos;utiliser les mêmes environnements et compilations sur votre machine et sur le cluster.</p>
-<p>Pour installer singularity en local, vous pourrez trouver de <a href="https://sylabs.io/guides/3.0/user-guide/installation.html" target="_blank">très bons tutoriels</a>. Sur le cluster, Singularity est disponible via les modules (<code>module load Singularity</code>)</p>
-<h3 id="un-exemple-avec-pytorch">Un exemple avec pytorch</h3>
-<p>Singularity peut créer des images avec son propre format de description ou à partir de données docker. Une grande quantité d&apos;image sont référencées notamment dans les serveurs de sylabs.io (<code>singularity search pytorch</code> par exemple) ou <a href="https://hub.docker.com/" target="_blank">dockerhub</a>.</p>
-<p>Si par exemple on choisit la version officielle, on pourra taper :</p>
-<pre><code class="lang-bash">singularity pull docker://pytorch/pytorch
+<h1 id="installation-de-programme">Installation de programme</h1>
+<p>Une fois dans un environnement (celui de base ou un que vous avez créé), vous pouvez installer un ou plusieurs paquets avec</p>
+<pre><code class="lang-bash">conda install [-c nom_du_canal] nom_paquet_1 nom_paquet_2 ...
 </code></pre>
-<p>qui créera un fichier <code>pytorch.sif</code>, utilisable pour lancer une ligne de commande</p>
-<pre><code class="lang-bash">singularity shell pytorch.sif
-</code></pre>
-<p>ou pour exécuter un programme (par exemple un script python)</p>
-<pre><code class="lang-bash">singularity run pytorch.sif python mon_fichier.py [mes options]
-</code></pre>
-<h3 id="images-les-plus-courantes">Images les plus courantes</h3>
-<p>Afin </p>
-<h3 id="gpu">GPU</h3>
-<p>Pour donner accès aux GPUs, il suffit d&apos;ajouter <code>--nv</code> aux options de lancement (<code>run</code>, <code>shell</code>, ...) comme dans :</p>
-<pre><code class="lang-bash">singularity shell --nv pytorch_latest.sif
-<span class="hljs-comment"># nvidia-smi devrait vous lister les GPU disponibles</span>
-</code></pre>
-<h3 id="mpi">MPI</h3>
-<p>TODO</p>
-<h3 id="accès-à-lenvironnement-depuis-un-ide">Accès à l&apos;environnement depuis un IDE</h3>
-<p>Pour que l&apos;IDE ait connaissance des librairies installées (pour l&apos;autocomplétion par exemple) et puisse lancer des compilations ou des debugs dans cet environnement, vous pouvez le référencer comme une machine distante dans votre <code>.ssh/config</code>. Par exemple, en y ajoutant </p>
-<pre><code class="lang-bash">Host mon_env
-    RemoteCommand singularity shell /.../le.sif <span class="hljs-comment"># pytorch_latest.sif sur l&apos;exemple précédant</span>
-    HostName localhost
-</code></pre>
-<p>Ensuite, vous pouvez utiliser les capacité &quot;remote ssh&quot; de votre IDE (ctrl-shift-p puis <code>remote-ssh connect to host</code> pour ce qui concerne visual code) pour vous connecter sur cette machine virtuelle (ce chroot pour être plus précis).</p>
-<h3 id="création-dimages">Création d&apos;images</h3>
-<p>setbuid</p>
-<pre><code class="lang-bash"><span class="hljs-comment"># singularity build --fakeroot test.sif test.def</span>
-
-Bootstrap: library
-From: ubuntu:21.04
-Stage: build
-
-%post
-    apt-get -y update 
-    apt-get -y install software-properties-common 
-    add-apt-repository -y universe 
-    apt-get -y update 
-    apt-get -y install python-is-python3 gcc libopenmpi-dev
-
-%runscript
-    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Container was created <span class="hljs-variable">$NOW</span>&quot;</span>
-    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Arguments received: $*&quot;</span>
-</code></pre>
+<p>Spécifier <code>-c nom_du_canal</code> n&apos;est utile que pour les paquets qui ne sont pas disponibles sur un des canaux défini par défaut.</p>
+<p>Pour savoir si c&apos;est le cas, vous pouvez ou bien tester sans l&apos;option et voir le résultat, ou bien chercher ce qui est proposé sur <a href="https://anaconda.org/" target="_blank">anaconda.org</a>.</p>
 
                                 
                                 </section>
@@ -384,7 +338,7 @@ Stage: build
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Conda","level":"1.5.2","depth":2,"next":{"title":"Singularity","level":"1.5.3","depth":2,"path":"0040_environnement/0030_singularity.md","ref":"0040_environnement/0030_singularity.md","articles":[]},"previous":{"title":"Module","level":"1.5.1","depth":2,"path":"0040_environnement/0010_module.md","ref":"0040_environnement/0010_module.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0040_environnement/0020_conda.md","mtime":"2022-04-19T14:57:37.000Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-04-21T13:48:13.128Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Conda","level":"1.5.2","depth":2,"next":{"title":"Singularity","level":"1.5.3","depth":2,"path":"0040_environnement/0030_singularity.md","ref":"0040_environnement/0030_singularity.md","articles":[]},"previous":{"title":"Module","level":"1.5.1","depth":2,"path":"0040_environnement/0010_module.md","ref":"0040_environnement/0010_module.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0040_environnement/0020_conda.md","mtime":"2022-04-21T17:12:20.695Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-04-22T04:55:41.403Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

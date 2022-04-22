@@ -1,3 +1,8 @@
 # Chargement de l’environnement de travail (interpréteur, compilateur...)
 
-Pour faire cohabiter les différentes versions des programmes que les utilisateurs souhaitent utiliser, l’environnement par défaut est minimal.
+Pour faire cohabiter les différentes versions des programmes que les utilisateurs souhaitent utiliser, l’environnement par défaut est minimal. Parmi les outils installés et disponibles de façon immédiate, il y a bien sûr un interpréteur python, une version de g++, etc... mais pas forcément la combinaison qui vous intéresse, avec l'ensemble des librairies dont vous avez besoin.
+
+Pour ajouter ou rendre disponible des programmes ou des librairies, nous proposons 3 types de solution:
+* la commande `module` permet en changeant des variables d'environnement (`PATH`, ...) de rendre disponible des programmes que nous avons installés dans des répertoires non-système. Il y a un nombre limité de modules disponibles, mais si ce dont vous avez besoin y est, cette solution est a privilégier (disponibilité immédiate, occupation disque, ...).
+* `conda` permet d'installer ses propres versions d'un programme et de ses dépendances, en restant dans l'espace utilisateur (pas besoin de droit d'admin). Beaucoup de programmes et de librairies sont disponibles par ce biais, dans la limite de ce qu'il est possible sans les droits d'admin.
+* `singularity` peut être vu comme "le docker du calcul". Il permet, sans les droits d'admin, de définir un système complet qui vient se raccorder sur le noyau en cours (qu'on a rarement besoin de fixer à une version précise). Il devient donc possible d'installer à peu près tout ce qu'on veut, avec des images qu'on peut aussi copier et utiliser à l'identique sur sa machine personnelle (c'est à dire ailleurs que sur le cluster) pour développer et tester en assurant une très bonne reproducibilité.

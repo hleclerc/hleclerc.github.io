@@ -1,128 +1,53 @@
-# Chargement de l’environnement de travail (interpréteur, compilateur...)
+# Conda
 
-Pour faire cohabiter les différentes versions des programmes que les utilisateurs souhaitent utiliser, l’environnement par défaut est minimal.
+Pour une plus grande liberté, notamment pour les environnements Python mais pas que, [conda](https://docs.conda.io/en/latest/miniconda.html) vous permettra d'installer des environnements quasi-complets dans un de vos répertoire.
 
-## module (pour les besoins les plus courants)
+Il y a une limite à ce qu'il est possible de faire sans les droits d'admin, mais bon nombre de programme et de librairie sont disponibles par ce biais. De plus, les environnements sont confinés : si par exemple vous installez un programme avec `pip` dans un environnement conda, ça ne modifiera que votre environnement conda.
 
-Pour les environnements/librairies/outils les plus courants (ceux que nous avons installés), vous pouvez utiliser la commande `module`.
+Pour savoir si un programme ou une librairie est installable par ce biais, vous pouvez aller sur [anaconda.org](https://anaconda.org/).
 
-Par exemple, si vous voulez lancer un programme avec R version 3.5.3, vous pouvez taper
+# Installation
 
-```bash
-module load R/3.5.3
-```
-
-et le shell dans lequel cette commande a été tapée aura accès à cette version de R (exécutable, librairies, etc...).
-
-Pour connaître la liste des modules disponibles (C++, Python, R, etc...), vous pouvez taper
+Une fois connecté sur cinaps, vous pouvez taper:
 
 ```bash
-module avail
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
 ```
 
-Pour connaitre la liste des modules chargés :
+Attention, en réponse à `Miniconda3 will now be installed into this location:...`, compte tenu de la place que prennent les environnements, _il est vivement conseillé d'installer les environnements dans votre `workdir`_ (par exemple `/workdir/<login>/.miniconda`).
+
+# Création d'environnement
+
+Une fois l'environnement de base mis en place, vous pouvez créer un environnement spécifique avec 
 
 ```bash
-module list 
+conda create --name <un_nom_que_vous_choisissez>
 ```
 
-Enfin, on peut détacher un module via
+Vous pouvez activer cet environnement avec :
 
 ```bash
-module unload <nom_du_module> 
+conda activate <un_nom_que_vous_choisissez>
 ```
 
-## conda (plutôt pour Python)
-
-Pour une plus grande liberté sur les environnements Python, [miniconda](https://docs.conda.io/en/latest/miniconda.html) vous permettra d'installer des environnements quasi-complets en local.
-
-Compte-tenu de la taille des répertoires générés, nous vous conseillons d'installer les environnements dans votre workdir.
-
-Conda fonctionne bien pour les modules Python qui ne demandent pas de dépendances "système" compliquées.
-
-## singularity (pour tous les environnements)
-
-Singularity peut être vu comme le "docker du calcul". Il résoud tous les problèmes d'environnement au prix d'une besoin de stockage légèrement plus élevé (mais pas si gigantesque par rapport à conda par exemple)
-
-Il permet de définir un système complet sans nécessiter d'accès root. Il devient donc possible d'installer n'importe quel package dans un environnement confiné.
-
-Les images peuvent par ailleurs être utilisées sur le cluster comme en local, permettant d'utiliser les mêmes environnements et compilations sur votre machine et sur le cluster.
-
-Pour installer singularity en local, vous pourrez trouver de [très bons tutoriels](https://sylabs.io/guides/3.0/user-guide/installation.html). Sur le cluster, Singularity est disponible via les modules (`module load Singularity`)
-
-### Un exemple avec pytorch
-
-Singularity peut créer des images avec son propre format de description ou à partir de données docker. Une grande quantité d'image sont référencées notamment dans les serveurs de sylabs.io (`singularity search pytorch` par exemple) ou [dockerhub](https://hub.docker.com/).
-
-Si par exemple on choisit la version officielle, on pourra taper :
+puis en sortir avec :
 
 ```bash
-singularity pull docker://pytorch/pytorch
+conda deactivate
 ```
 
-qui créera un fichier `pytorch.sif`, utilisable pour lancer une ligne de commande
+# Installation de programme
+
+Une fois dans un environnement (celui de base ou un que vous avez créé), vous pouvez installer un ou plusieurs paquets avec
 
 ```bash
-singularity shell pytorch.sif
+conda install [-c nom_du_canal] nom_paquet_1 nom_paquet_2 ...
 ```
 
-ou pour exécuter un programme (par exemple un script python)
+Spécifier `-c nom_du_canal` n'est utile que pour les paquets qui ne sont pas disponibles sur un des canaux défini par défaut.
 
-```bash
-singularity run pytorch.sif python mon_fichier.py [mes options]
-```
-
-### Images les plus courantes
-
-Afin 
-
-
-### GPU
-
-Pour donner accès aux GPUs, il suffit d'ajouter `--nv` aux options de lancement (`run`, `shell`, ...) comme dans :
-
-```bash
-singularity shell --nv pytorch_latest.sif
-# nvidia-smi devrait vous lister les GPU disponibles
-```
-
-### MPI
-
-TODO
-
-### Accès à l'environnement depuis un IDE
-
-Pour que l'IDE ait connaissance des librairies installées (pour l'autocomplétion par exemple) et puisse lancer des compilations ou des debugs dans cet environnement, vous pouvez le référencer comme une machine distante dans votre `.ssh/config`. Par exemple, en y ajoutant 
-
-```bash
-Host mon_env
-    RemoteCommand singularity shell /.../le.sif # pytorch_latest.sif sur l'exemple précédant
-    HostName localhost
-```
-
-Ensuite, vous pouvez utiliser les capacité "remote ssh" de votre IDE (ctrl-shift-p puis `remote-ssh connect to host` pour ce qui concerne visual code) pour vous connecter sur cette machine virtuelle (ce chroot pour être plus précis).
+Pour savoir si c'est le cas, vous pouvez ou bien tester sans l'option et voir le résultat, ou bien chercher ce qui est proposé sur [anaconda.org](https://anaconda.org/).
 
 
 
-### Création d'images
-
-setbuid
-
-```bash
-# singularity build --fakeroot test.sif test.def
-
-Bootstrap: library
-From: ubuntu:21.04
-Stage: build
-
-%post
-    apt-get -y update 
-    apt-get -y install software-properties-common 
-    add-apt-repository -y universe 
-    apt-get -y update 
-    apt-get -y install python-is-python3 gcc libopenmpi-dev
-
-%runscript
-    echo "Container was created $NOW"
-    echo "Arguments received: $*"
-```

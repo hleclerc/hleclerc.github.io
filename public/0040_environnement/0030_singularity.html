@@ -269,60 +269,70 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="chargement-de-lenvironnement-de-travail-interpréteur-compilateur">Chargement de l’environnement de travail (interpréteur, compilateur...)</h1>
-<p>Pour faire cohabiter les différentes versions des programmes que les utilisateurs souhaitent utiliser, l’environnement par défaut est minimal.</p>
-<h2 id="module-pour-les-besoins-les-plus-courants">module (pour les besoins les plus courants)</h2>
-<p>Pour les environnements/librairies/outils les plus courants (ceux que nous avons installés), vous pouvez utiliser la commande <code>module</code>.</p>
-<p>Par exemple, si vous voulez lancer un programme avec R version 3.5.3, vous pouvez taper</p>
-<pre><code class="lang-bash">module load R/3.5.3
+                                <h1 id="singularity">Singularity</h1>
+<p>Singularity peut être vu comme le &quot;docker du calcul&quot;. Il résout tous les problèmes d&apos;environnement et permettant, sans les droit root, de définir un système complet qui vient se raccorder sur le noyau en cours.</p>
+<p>Les &quot;images&quot; (qui définissent ce sur-système) peuvent par ailleurs être copiées et utilisées à l&apos;identique sur le cluster comme sur sa machine personnelle. Ça permet d&apos;utiliser les mêmes environnements, interpréteurs et compilateurs sur votre machine et sur le cluster.</p>
+<p>Par ailleurs, il existe une quantité énorme d&apos;images déjà prêtes, proposées par des entreprises ou la communauté. Singularity permet en particulier de charger des images docker, comme celles - très nombreuses - que vous pouvez trouver sur <a href="https://hub.docker.com/" target="_blank">dockerhub</a>. Vous pourrez aussi trouver un certain nombre d&apos;images sur <a href="https://cloud.sylabs.io/library/" target="_blank">cloud.sylabs.io</a> (plus orienté calcul, mais dockerhub n&apos;est pas en reste).</p>
+<h2 id="installation">Installation</h2>
+<p>Singularity est disponible sur le cluster via un module. Pour l&apos;activer, vous pouvez taper</p>
+<pre><code class="lang-bash">module load Singularity
 </code></pre>
-<p>et le shell dans lequel cette commande a été tapée aura accès à cette version de R (exécutable, librairies, etc...).</p>
-<p>Pour connaître la liste des modules disponibles (C++, Python, R, etc...), vous pouvez taper</p>
-<pre><code class="lang-bash">module avail
+<p>C&apos;est ce n&apos;est pas déjà fait, vous pouvez aussi <a href="https://sylabs.io/guides/3.0/user-guide/installation.html" target="_blank">l&apos;installer sur votre machine</a> (et c&apos;est conseillé pour tester et préparer de façon simple).</p>
+<h2 id="récupération-dune-image-déjà-prête">Récupération d&apos;une image déjà prête</h2>
+<p>Pour charger une image déjà préparée, on utilise la commande <code>pull</code> :</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># on fait un exemple avec la librairie fenics qui est</span>
+<span class="hljs-comment"># notoirement difficile à installer par d&apos;autres biais</span>
+singularity pull docker://pymor/fenics_py3.8
 </code></pre>
-<p>Pour connaitre la liste des modules chargés :</p>
-<pre><code class="lang-bash">module list
+<p>Cette commande crée un fichier <code>.sif</code>, qui contient toutes les données de l&apos;image. On peut copier et utiliser ce fichier où on veut (y compris en dehors du cluster), pourvu qu&apos;on soit sur le même type d&apos;architecture de base (x86, arm, ...).</p>
+<h2 id="utilisation-du-fichier-sif">Utilisation du fichier <code>.sif</code></h2>
+<h3 id="shell-interactif">Shell interactif</h3>
+<p>Il est possible de lancer un shell interactif, comme dans :</p>
+<pre><code class="lang-bash">singularity shell fenics_py3.8_latest.sif
+<span class="hljs-comment"># &gt; ... vous pouvez taper n&apos;importe quelle commande du shell choisi</span>
 </code></pre>
-<p>Enfin, on peut détacher un module via</p>
-<pre><code class="lang-bash">module unload &lt;nom_du_module&gt;
+<h3 id="liens-vers-les-répertoires-de-lhôte">Liens vers les répertoires de l&apos;hôte</h3>
+<p>Singularity met automatiquement en place un lien vers votre $HOME, en plus du répertoire dans lequel la commande est lancée.</p>
+<p>Si ce n&apos;est pas suffisant, vous pouvez ajouter des liens vers d&apos;autres répertoire de l&apos;hôte avec l&apos;option <code>--bind</code>, comme dans</p>
+<pre><code class="lang-bash">singularity shell --<span class="hljs-built_in">bind</span> /workdir/&lt;login&gt; fenics_py3.8_latest.sif
+<span class="hljs-comment"># &gt; ls /workdir/&lt;login&gt; vous donnera bien le contenu de votre workdir</span>
 </code></pre>
-<h2 id="conda-plutôt-pour-python">conda (plutôt pour Python)</h2>
-<p>Pour une plus grande liberté sur les environnements Python, <a href="https://docs.conda.io/en/latest/miniconda.html" target="_blank">miniconda</a> vous permettra d&apos;installer des environnements quasi-complets en local.</p>
-<p>Compte-tenu de la taille des répertoires générés, nous vous conseillons d&apos;installer les environnements dans votre workdir.</p>
-<p>Conda fonctionne bien pour les modules Python qui ne demandent pas de dépendances &quot;système&quot; compliquées.</p>
-<h2 id="singularity-pour-tous-les-environnements">singularity (pour tous les environnements)</h2>
-<p>Singularity peut être vu comme le &quot;docker du calcul&quot;. Il résoud tous les problèmes d&apos;environnement au prix d&apos;une besoin de stockage légèrement plus élevé (mais pas si gigantesque par rapport à conda par exemple)</p>
-<p>Il permet de définir un système complet sans nécessiter d&apos;accès root. Il devient donc possible d&apos;installer n&apos;importe quel package dans un environnement confiné.</p>
-<p>Les images peuvent par ailleurs être utilisées sur le cluster comme en local, permettant d&apos;utiliser les mêmes environnements et compilations sur votre machine et sur le cluster.</p>
-<p>Pour installer singularity en local, vous pourrez trouver de <a href="https://sylabs.io/guides/3.0/user-guide/installation.html" target="_blank">très bons tutoriels</a>. Sur le cluster, Singularity est disponible via les modules (<code>module load Singularity</code>)</p>
-<h3 id="un-exemple-avec-pytorch">Un exemple avec pytorch</h3>
-<p>Singularity peut créer des images avec son propre format de description ou à partir de données docker. Une grande quantité d&apos;image sont référencées notamment dans les serveurs de sylabs.io (<code>singularity search pytorch</code> par exemple) ou <a href="https://hub.docker.com/" target="_blank">dockerhub</a>.</p>
-<p>Si par exemple on choisit la version officielle, on pourra taper :</p>
-<pre><code class="lang-bash">singularity pull docker://pytorch/pytorch
+<h3 id="exécution-de-programme">Exécution de programme</h3>
+<p>On peut demander l&apos;exécution directe un programme avec <code>exec</code> :</p>
+<pre><code class="lang-bash">singularity <span class="hljs-built_in">exec</span> fenics_py3.8_latest.sif python ft01_poisson.py
 </code></pre>
-<p>qui créera un fichier <code>pytorch.sif</code>, utilisable pour lancer une ligne de commande</p>
-<pre><code class="lang-bash">singularity shell pytorch.sif
+<p>Par ailleurs, si l&apos;image contient un exécutable à lancer par défaut, vous pouvez utiliser <code>run</code> :</p>
+<pre><code class="lang-bash">singularity pull docker://sylabsio/lolcow
+singularity run lolcow_latest.sif 
+ _______________________________
+&lt; Fri Apr 22 07:25:20 CEST 2022 &gt;
+ -------------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
 </code></pre>
-<p>ou pour exécuter un programme (par exemple un script python)</p>
-<pre><code class="lang-bash">singularity run pytorch.sif python mon_fichier.py [mes options]
-</code></pre>
-<h3 id="images-les-plus-courantes">Images les plus courantes</h3>
-<p>Afin </p>
-<h3 id="gpu">GPU</h3>
+<h2 id="gpu">GPU</h2>
 <p>Pour donner accès aux GPUs, il suffit d&apos;ajouter <code>--nv</code> aux options de lancement (<code>run</code>, <code>shell</code>, ...) comme dans :</p>
-<pre><code class="lang-bash">singularity shell --nv pytorch_latest.sif
-<span class="hljs-comment"># nvidia-smi devrait vous lister les GPU disponibles</span>
+<pre><code class="lang-bash">singularity pull docker://bitnami/pytorch
+<span class="hljs-comment"># on lance nvidia-smi sur le noeud 15, dans l&apos;environnement pytorch_latest.sif</span>
+srun -w node15 singularity <span class="hljs-built_in">exec</span> --nv pytorch_latest.sif nvidia-smi
 </code></pre>
-<h3 id="mpi">MPI</h3>
-<p>TODO</p>
-<h3 id="accès-à-lenvironnement-depuis-un-ide">Accès à l&apos;environnement depuis un IDE</h3>
-<p>Pour que l&apos;IDE ait connaissance des librairies installées (pour l&apos;autocomplétion par exemple) et puisse lancer des compilations ou des debugs dans cet environnement, vous pouvez le référencer comme une machine distante dans votre <code>.ssh/config</code>. Par exemple, en y ajoutant </p>
+<h2 id="mpi">MPI</h2>
+<p>Singularity s&apos;occupe automatiquement de transférer les variables d&apos;environnement nécessaire au fonctionnement de mpi. Pensez simplement à ajouter <code>--mpi=pmi2</code> dans les flags de <code>srun</code>, comme dans :</p>
+<pre><code class="lang-bash">srun -n2 --mpi=pmi2 singularity <span class="hljs-built_in">exec</span> mpi4py_latest.sif python test_mpi.py
+</code></pre>
+<h2 id="accès-par-ssh-pour-les-ides">Accès par ssh (pour les IDEs)</h2>
+<p>Vous pouvez enregistrer l&apos;environnement comme une machine sur laquelle se connecter avec ssh en ajoutant un <code>RemoteCommand</code> dans votre <code>.ssh/config</code> :</p>
 <pre><code class="lang-bash">Host mon_env
-    RemoteCommand singularity shell /.../le.sif <span class="hljs-comment"># pytorch_latest.sif sur l&apos;exemple précédant</span>
+    RemoteCommand singularity shell &lt;mon_image.sif&gt;
     HostName localhost
 </code></pre>
+<p>Pour que l&apos;IDE ait connaissance des librairies installées (pour l&apos;autocomplétion par exemple) et puisse lancer des compilations ou des debugs dans cet environnement, vous pouvez le référencer comme une machine distante dans votre <code>.ssh/config</code>. Par exemple, en y ajoutant </p>
 <p>Ensuite, vous pouvez utiliser les capacité &quot;remote ssh&quot; de votre IDE (ctrl-shift-p puis <code>remote-ssh connect to host</code> pour ce qui concerne visual code) pour vous connecter sur cette machine virtuelle (ce chroot pour être plus précis).</p>
-<h3 id="création-dimages">Création d&apos;images</h3>
+<h2 id="modification-dimages">Modification d&apos;images</h2>
+<h2 id="définition-dimages">Définition d&apos;images</h2>
 <p>setbuid</p>
 <pre><code class="lang-bash"><span class="hljs-comment"># singularity build --fakeroot test.sif test.def</span>
 
@@ -384,7 +394,7 @@ Stage: build
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Singularity","level":"1.5.3","depth":2,"next":{"title":"Calcul parallèle","level":"1.6","depth":1,"path":"0050_calcul_parallele.md","ref":"0050_calcul_parallele.md","articles":[]},"previous":{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0040_environnement/0030_singularity.md","mtime":"2022-04-19T14:57:37.000Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-04-21T13:48:13.128Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Singularity","level":"1.5.3","depth":2,"next":{"title":"Calcul parallèle","level":"1.6","depth":1,"path":"0050_calcul_parallele.md","ref":"0050_calcul_parallele.md","articles":[]},"previous":{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0040_environnement/0030_singularity.md","mtime":"2022-04-22T04:43:45.811Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-04-22T04:55:41.403Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
