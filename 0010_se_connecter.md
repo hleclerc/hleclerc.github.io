@@ -18,13 +18,13 @@ ssh votre_login@cinaps
 
 Afin d'éviter d'avoir à taper le mot de passe à chaque connection, vous pouvez passer par une paire de clés ssh.
 
-Si vous pas de paire de clés, vous pouvez en créer une en tapant :
+Si vous n'avez pas de paire de clés, vous pouvez en créer une en tapant :
 
 ```bash
 ssh-keygen
 ```
 
-Remarque : pour des raisons de sécurité, il est conseillé d'utiliser une passphrase non vide. Sur les systèmes modernes, cette passphrase ne sera demandée qu'une fois par *session* (plutôt que une fois par connection), et sera réutilisée automatiquement pour chaque connection ssh au sein de cette session.
+Remarque : pour des raisons de sécurité, il est conseillé d'utiliser une passphrase non vide. Sur les systèmes modernes, cette passphrase ne sera demandée qu'une fois par *session* plutôt que une fois par connection, et sera réutilisée automatiquement pour chaque connection ssh au sein de cette session.
 
 Une fois la paire de clé créée, vous pouvez envoyer sur le cluster une copie de la partie publique avec la commande :
 
@@ -32,7 +32,7 @@ Une fois la paire de clé créée, vous pouvez envoyer sur le cluster une copie 
 ssh-copy-id cinaps
 ```
 
-De cette façon, `ssh cinaps` devrait fonctionner sans mot de passe ) chaque connection.
+De cette façon, `ssh cinaps` devrait fonctionner sans mot de passe à chaque connection.
 
 ## Depuis l'extérieur
 
@@ -41,8 +41,8 @@ Cinaps n'étant pas accessible en dehors du réseau du laboratoire, vous devez d
 ### À la main
 
 Si vous projetez de ne fonctionner qu'avec des lignes de commande, vous pouvez procéder en deux étapes :
-* d'abord en se connectant sur une des machines d'accès extérieur (`ssh <votre_login>@sas1.math.u-psud.fr` ou `ssh <votre_login>@sas2.math.u-psud.fr`, si l'une est plus chargée que l'autre), en utilisant ou bien votre mot de passe LDAP ou bien une paire de clé (en envoyant la clé publique sur votre HOME du laboratoire par exemple avec `ssh-copy-id sas1.math.u-psud.fr` si ce n'est pas déjà fait),
-* puis en tapant `ssh cinaps`
+* d'abord en se connectant sur une des machines d'accès extérieur (`ssh <votre_login>@sas1.math.u-psud.fr` ou `ssh <votre_login>@sas2.math.u-psud.fr`, si l'une est plus chargée que l'autre), en utilisant ou bien votre mot de passe LDAP ou bien une paire de clé (en envoyant la clé publique sur votre home du laboratoire par exemple avec `ssh-copy-id sas1.math.u-psud.fr`),
+* puis en tapant `ssh cinaps` de la même façon que précédemment.
 
 ### Avec un `.ssh/config`
 

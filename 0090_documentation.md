@@ -6,10 +6,10 @@ Pour la modifier, vous devez "forker" le dépôt https://github.com/hleclerc/hle
 
 ## Tester un changement en local
 
-`npx honkit serve . public`
+`npx honkit serve . docs`
 
 ## Compiler
 
-`npx honkit build . public`
+`npx honkit build . docs`
 
 Vous pouvez ensuite faire la proposition de pull.
