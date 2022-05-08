@@ -18,6 +18,8 @@ Voici quelques options importantes:
 * `-c` permet de spécifier le nombre de core "alloué" par processus. Ce n'est pas un allocation *stricto sensu* vu que les processus réservent autant de threads qu'ils le souhaitent... mais ça permettra de fixer le nombre de HW threads que chaque processus pourra utiliser sans marcher sur les autres. Rq: pour une gestion des affinités notamment lorsqu'il y a plusieurs sockets, voir par exemple [cette page](https://slurm.schedmd.com/mc_support.html)
 * `--mpi=pmi2` pour produire le même effet qu'un `mpirun` (`mpirun` est remplacé par `srun` qui se charge de l'allocation ET d'associer un `rank` à chaque processus).
 * `--nodelist=...` permet de spécifier les nœuds à utiliser.
+* `--gpus=n` permet de définir le nombre de gpus à utiliser. `--mem-per-gpu=n` pour donner la mémoire minimum pour chaque gpu.
+* `--mem=MB` permet de définir le taille minimale de mémoire pour chaque processus.
 
 Par défaut, Slurm lance les processus de façon indépendante, et il n'y a que les variables d'environnement qui différent. Par exemple, `SLURM_PROCID` donne l'index du processus, `SLURM_NTASKS` donne le nombre de processus. Cf. [cette page](https://slurm.schedmd.com/sbatch.html#lbAK) pour un tour des variables mises en place par slurm.
 

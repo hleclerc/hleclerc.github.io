@@ -321,11 +321,18 @@
 <td>35   Go</td>
 <td>-</td>
 </tr>
+<tr>
+<td>node20</td>
+<td>2x18 Cascade Lake (avx2)</td>
+<td>192  Go</td>
+<td>4 x Quadro RTX 6000 (24Go, 16.3 TFLOPS)</td>
+</tr>
 </tbody>
 </table>
-<!-- obtenu avec srun --nodelist=node11 ./pinxi --tty -Fxz -->
+<!-- obtenu avec srun --nodelist=nodeXX ./pinxi --tty -Fxz -->
 <!-- Quadro GV100 Bandwidth 868.4 GB/s -->
 <!-- Tesla K20m Bandwidth 208.0 GB/s -->
+<!-- Quadro RTX 6000 Bandwidth 672.0 GB/s -->
 <p>Vous trouverez des graphiques sur l’utilisation des différents nœuds (RAM, CPU,...) sur la <a href="https://cinaps.imo.universite-paris-saclay.fr/" target="_blank">page ganglia</a>, </p>
 <h2 id="correspondants">Correspondants</h2>
 <p>Pour toute question technique non couverte ou peu claire dans la documentation, vous pouvez contacter:</p>
@@ -374,7 +381,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"Se connecter","level":"1.2","depth":1,"path":"0010_se_connecter.md","ref":"0010_se_connecter.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2022-04-22T10:45:37.130Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-04-22T13:03:10.243Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"Se connecter","level":"1.2","depth":1,"path":"0010_se_connecter.md","ref":"0010_se_connecter.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2022-05-08T03:42:38.407Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-05-08T03:51:20.092Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
