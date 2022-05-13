@@ -12,22 +12,39 @@ Si vous souhaitez lancer une commande simple et attendre le résultat avec un re
 srun [options de srun] ma_commande [options pour ma_commande]
 ```
 
-Voici quelques options importantes:
-* `-N` permet de spécifier le nombre minimum de nœuds (i.e. machine) sur lesquels lancer la commande. Si `-n` ou `-c` n'est pas spécifié (voir plus bas), il y aura un seul processus par nœud et chaque processus pourra donc utiliser tous les cores de son nœud via le multithreading. Chaque processus gère le multithreading comme il l'entend (Slurm ne gère pas ces questions là).
-* `-n` permet de spécifier le nombre de processus à lancer en parallèle. Cette approche est à adopter notamment si vous ne gérez pas le multithreading dans vos processus. Si `-c` n'est pas spécifié, Slurm utilisera un "core" par processus de sorte qu'un nœud pourra se retrouver avec plusieurs processus.
-* `-c` permet de spécifier le nombre de core "alloué" par processus. Ce n'est pas un allocation *stricto sensu* vu que les processus réservent autant de threads qu'ils le souhaitent... mais ça permettra de fixer le nombre de HW threads que chaque processus pourra utiliser sans marcher sur les autres. Rq: pour une gestion des affinités notamment lorsqu'il y a plusieurs sockets, voir par exemple [cette page](https://slurm.schedmd.com/mc_support.html)
-* `--mpi=pmi2` pour produire le même effet qu'un `mpirun` (`mpirun` est remplacé par `srun` qui se charge de l'allocation ET d'associer un `rank` à chaque processus).
+Attention cependant, lancer directement via `srun` est surtout utile pour les calculs courts et les tests sur lesquels on veut avoir un retour immédiat. Pour les calculs plus longs, vous pourrez utiliser `sbatch` décrit dans la section suivante.
+
+
+## Options d'exécution
+
+Voici quelques options importantes (utilisables dans `sbatch` et `srun`) :
+
+### Nombre et choix des nœuds
+
+* `-N` permet de spécifier le nombre minimum de nœuds (i.e. machine) sur lesquels lancer la commande.
 * `--nodelist=...` permet de spécifier les nœuds à utiliser.
 * `--gpus=n` permet de définir le nombre de gpus à utiliser. `--mem-per-gpu=n` pour donner la mémoire minimum pour chaque gpu.
 * `--mem=MB` permet de définir le taille minimale de mémoire pour chaque processus.
 
-Par défaut, Slurm lance les processus de façon indépendante, et il n'y a que les variables d'environnement qui différent. Par exemple, `SLURM_PROCID` donne l'index du processus, `SLURM_NTASKS` donne le nombre de processus. Cf. [cette page](https://slurm.schedmd.com/sbatch.html#lbAK) pour un tour des variables mises en place par slurm.
+### Mpi/Single Programme Multiple Data
 
-Comme écrit plus haut, si vous utilisez mpi et si vous voulez que `rank` et `size` soient corrects, il faut ajouter l'option `--mpi=pmi2` et utiliser une commande Slurm comme `srun` ou `sbatch` à la place de `mpirun`, `mpiexec` ou autre commande mpi.
+Par défaut, Slurm lance les processus de façon indépendante, et il n'y a que les variables d'environnement qui différent. `SLURM_PROCID` donne notamment l'index du processus. `SLURM_NTASKS` donne le nombre de processus. Cf. [cette page](https://slurm.schedmd.com/sbatch.html#lbAK) pour un tour des variables mises en place par slurm.
 
-## Lancement différé et graphe de taches (sbatch)
+Attention: si vous utilisez mpi et si vous voulez que vos `rank` et `size` soient corrects dans vos programmes, il faut ajouter l'option `--mpi=pmi2` aux commandes `srun`. Avec cette option, `srun` *remplace* `mpirun` en se chargeant de l'allocation ET de l'association d'un `rank` à chaque processus.
 
-Pour envoyer un job dans la file d’attente sans bloquer le terminal (de sorte qu'il est possible de se déloguer sans stopper le calcul), vous pouvez utiliser la commande `sbatch`. Cette dernière prend en entrée un script bash, qui va contenir à la fois les commandes pour lancer le programme, et les options d’exécution telles que les ressources nécessaires (la RAM, nombre de processeurs...), ou des options liées à la gestion du job.
+### Remarque sur le multicore/multithreading
+
+Sauf contre ordre, slurm ne met qu'un seul processus par nœud et chaque processus pourra donc utiliser tous les cores comme il l'entend. Chaque processus gère en fait le multithreading comme il le souhaite et Slurm ne met pas de barrières sur le nombre de threads que chaque processus peut utiliser.
+
+Dans le cas ou vos programmes fonctionnent avec un nombre fixe de threads (1 par exemple), vous pouvez demander à slurm d'allouer des "cores" plutôt que des nœuds (des machines complètes) en utilisant les options suivantes :
+* `-n` permet de spécifier le nombre de processus à lancer en parallèle. Cette approche est à adopter notamment si vous ne gérez pas le multithreading dans vos processus. Si `-c` n'est pas spécifié, Slurm utilisera un "core" par processus de sorte qu'un nœud pourra se retrouver avec plusieurs processus.
+* `-c` permet de spécifier le nombre de core "alloué" par processus. Ce n'est pas un allocation *stricto sensu* vu que les processus réservent autant de threads qu'ils le souhaitent... mais ça permettra de fixer le nombre de HW threads que chaque processus pourra utiliser sans marcher sur les autres. Rq: pour une gestion des affinités notamment lorsqu'il y a plusieurs sockets, voir par exemple [cette page](https://slurm.schedmd.com/mc_support.html)
+
+## Lancement différé et graphes de taches (sbatch)
+
+Pour envoyer un job dans la file d’attente sans bloquer le terminal (de sorte qu'il est possible de se déloguer sans stopper le calcul), vous pouvez utiliser la commande `sbatch`.
+
+Cette dernière prend en entrée un script bash, qui va contenir à la fois les commandes pour lancer le(s) programme(s), les options concernant les ressources (la RAM, nombre de processeurs...), ou des options liées aux entrées/sorties.
 
 Attention: `sbatch` ne se substitue pas à `srun`. Le script bash sert à définir le contexte, pour pouvoir ensuite y lancer une ou plusieurs commandes `srun`, qui pourront s'exécuter de façon séquentielle ou avec des dépendances fines.
 
@@ -58,6 +75,27 @@ module load mon_module
 #  et s'il y a plusieurs srun, ils sont exécutés de façon séquentielle.
 srun python mon_script.py
 ```
+
+### Job arrays
+
+Avec l'option `-array=...`, `sbatch` permet de générer des lancement multiples d'un même programme dont on veut faire varier les paramètres d'entrée.
+
+Chaque job sera lancé avec un index, mis dans la variable d'environnement `SLURM_ARRAY_TASK_ID`.
+
+Voici quelque exemples:
+
+```bash
+# mon_programme sera lancé avec 32 fois `SLURM_ARRAY_TASK_ID` qui ira de 0 à 31
+$ sbatch --array=0-31 mon_programme
+
+# pareil avec 1, 3, 5 and 7 commes indices
+$ sbatch --array=1,3,5,7 mon_programme
+
+# on peut définir des pas 2 (on aura 1, 3, 5 and 7)
+$ sbatch --array=1-7:2 mon_programme
+```
+
+Cf. [cette page](https://slurm.schedmd.com/job_array.html) pour une description plus détaillée.
 
 ## Suivi des jobs
 
