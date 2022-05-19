@@ -1,10 +1,10 @@
 # Singularity
 
-Singularity peut être vu comme le "docker du calcul". Il résout tous les problèmes d'environnement et permettant, sans les droit root, de définir un système complet qui vient se raccorder sur le noyau en cours.
+Singularity peut être vu comme le "docker du calcul". Il résout tous les problèmes d'environnement en permettant de définir un système complet qui vient se raccorder sur le noyau en cours.
 
-Les "images" (qui définissent ce sur-système) peuvent par ailleurs être copiées et utilisées à l'identique sur le cluster comme sur sa machine personnelle. Ça permet d'utiliser les mêmes environnements, interpréteurs et compilateurs sur votre machine et sur le cluster.
+Les "images" qui définissent ce sur-système peuvent par ailleurs être copiées et utilisées à l'identique sur d'autres machines, notamment sur sa machine personnelle. Il devient donc possible d'utiliser exactement les mêmes environnements sur votre machine et sur le cluster.
 
-Par ailleurs, il existe une quantité énorme d'images déjà prêtes, proposées par des entreprises ou la communauté. Singularity permet en particulier de charger des images docker, comme celles - très nombreuses - que vous pouvez trouver sur [dockerhub](https://hub.docker.com/). Vous pourrez aussi trouver un certain nombre d'images sur [cloud.sylabs.io](https://cloud.sylabs.io/library/) (plus orienté calcul, mais dockerhub n'est pas en reste).
+Il existe du reste une quantité énorme d'images *déjà prêtes*, proposées par la communauté ou des entreprises. Singularity permet en particulier de charger des images docker, comme celles - très nombreuses - que vous pouvez trouver sur [dockerhub](https://hub.docker.com/). Vous pourrez aussi trouver un certain nombre d'images sur [cloud.sylabs.io](https://cloud.sylabs.io/library/) (plus orienté calcul).
 
 ## Installation
 
@@ -61,8 +61,8 @@ singularity exec fenics_py3.8_latest.sif python ft01_poisson.py
 Par ailleurs, si l'image contient un exécutable à lancer par défaut, vous pouvez utiliser `run` :
 
 ```bash
-singularity pull docker://sylabsio/lolcow
-singularity run lolcow_latest.sif 
+$ singularity pull docker://sylabsio/lolcow
+$ singularity run lolcow_latest.sif 
  _______________________________
 < Fri Apr 22 07:25:20 CEST 2022 >
  -------------------------------
@@ -85,7 +85,7 @@ srun -w node15 singularity exec --nv pytorch_latest.sif nvidia-smi
 
 ## MPI
 
-Singularity s'occupe automatiquement de transférer les variables d'environnement nécessaire au fonctionnement de mpi. Pensez simplement à ajouter `--mpi=pmi2` dans les flags de `srun`, comme dans :
+Singularity s'occupe automatiquement de transférer les variables d'environnement nécessaires au fonctionnement de mpi. Pensez simplement à ajouter `--mpi=pmi2` dans les flags de `srun`, comme dans :
 
 ```bash
 srun -n2 --mpi=pmi2 singularity exec mpi4py_latest.sif python test_mpi.py
@@ -93,7 +93,7 @@ srun -n2 --mpi=pmi2 singularity exec mpi4py_latest.sif python test_mpi.py
 
 ## Accès par ssh, configuration des IDEs
 
-Vous pouvez enregistrer l'environnement comme une machine sur laquelle se connecter avec ssh en ajoutant un `RemoteCommand` dans votre `.ssh/config` :
+Vous pouvez enregistrer l'environnement comme une machine sur laquelle se connecter en ajoutant un `RemoteCommand` dans votre `.ssh/config` :
 
 ```bash
 Host <mon_env>
@@ -103,11 +103,11 @@ Host <mon_env>
     RequestTTY yes
 ```
 
-Après ça vous pourrez entre autres y développer à distance avec l'aide de votre IDE favori.
+Après ça, vous pourrez notamment y connecter votre IDE favori.
 
-Pour visual code cependant, il faudra penser à ajouter `"remote.SSH.enableRemoteCommand": true` dans `settings.json` (accessible via `ctrl-shift-p` puis `Open settings (JSON)`). Après ça, vous pouvez lancer la commande `Remote-SSH: connect to host` pour vous connecter à `<mon_env>`. Vous aurez ensuite accès à l'autocomplétion qui correspond à votre environnement.
+Pour visual code cependant, il faudra penser à ajouter `"remote.SSH.enableRemoteCommand": true` dans `settings.json` (accessible via `ctrl-shift-p` puis `Open settings (JSON)`). Après ça, vous pourrez lancer la commande `Remote-SSH: connect to host` pour vous connecter à `<mon_env>`. Vous aurez ensuite accès à l'autocomplétion qui correspond à votre environnement.
 
-![code_singularity](code_singularity.png)
+<!-- ![code_singularity](code_singularity.png) -->
 
 ## Modification du contenu des images
 
@@ -133,7 +133,7 @@ Voici un exemple de fichier de définition d'image
 
 ```bash
 # test.def
-Bootstrap: library # ou "docker" par exemple si vous prenez l'image de base dans dockerhub
+Bootstrap: library # ou "docker" par exemple si vous prenez l'image dans dockerhub
 From: ubuntu:21.04
 Stage: build
 
@@ -156,6 +156,6 @@ On peut la compiler avec :
 singularity build --fakeroot test.sif test.def
 ```
 
-et utiliser le `.sif` résultant comme les autres `.sif`.
+et utiliser le `.sif` résultant de la même manière que ceux qu'on a chargé sur un hub.
 
 Vous trouverez une description plus détaillée dans [cette page](https://sylabs.io/guides/3.5/user-guide/definition_files.html).

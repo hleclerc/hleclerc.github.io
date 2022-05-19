@@ -257,9 +257,9 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="singularity">Singularity</h1>
-<p>Singularity peut être vu comme le &quot;docker du calcul&quot;. Il résout tous les problèmes d&apos;environnement et permettant, sans les droit root, de définir un système complet qui vient se raccorder sur le noyau en cours.</p>
-<p>Les &quot;images&quot; (qui définissent ce sur-système) peuvent par ailleurs être copiées et utilisées à l&apos;identique sur le cluster comme sur sa machine personnelle. Ça permet d&apos;utiliser les mêmes environnements, interpréteurs et compilateurs sur votre machine et sur le cluster.</p>
-<p>Par ailleurs, il existe une quantité énorme d&apos;images déjà prêtes, proposées par des entreprises ou la communauté. Singularity permet en particulier de charger des images docker, comme celles - très nombreuses - que vous pouvez trouver sur <a href="https://hub.docker.com/" target="_blank">dockerhub</a>. Vous pourrez aussi trouver un certain nombre d&apos;images sur <a href="https://cloud.sylabs.io/library/" target="_blank">cloud.sylabs.io</a> (plus orienté calcul, mais dockerhub n&apos;est pas en reste).</p>
+<p>Singularity peut être vu comme le &quot;docker du calcul&quot;. Il résout tous les problèmes d&apos;environnement en permettant de définir un système complet qui vient se raccorder sur le noyau en cours.</p>
+<p>Les &quot;images&quot; qui définissent ce sur-système peuvent par ailleurs être copiées et utilisées à l&apos;identique sur d&apos;autres machines, notamment sur sa machine personnelle. Il devient donc possible d&apos;utiliser exactement les mêmes environnements sur votre machine et sur le cluster.</p>
+<p>Il existe du reste une quantité énorme d&apos;images <em>déjà prêtes</em>, proposées par la communauté ou des entreprises. Singularity permet en particulier de charger des images docker, comme celles - très nombreuses - que vous pouvez trouver sur <a href="https://hub.docker.com/" target="_blank">dockerhub</a>. Vous pourrez aussi trouver un certain nombre d&apos;images sur <a href="https://cloud.sylabs.io/library/" target="_blank">cloud.sylabs.io</a> (plus orienté calcul).</p>
 <h2 id="installation">Installation</h2>
 <p>Singularity est disponible sur le cluster via un module. Pour l&apos;activer, vous pouvez taper</p>
 <pre><code class="lang-bash">module load Singularity
@@ -289,8 +289,8 @@ singularity pull docker://pymor/fenics_py3.8
 <pre><code class="lang-bash">singularity <span class="hljs-built_in">exec</span> fenics_py3.8_latest.sif python ft01_poisson.py
 </code></pre>
 <p>Par ailleurs, si l&apos;image contient un exécutable à lancer par défaut, vous pouvez utiliser <code>run</code> :</p>
-<pre><code class="lang-bash">singularity pull docker://sylabsio/lolcow
-singularity run lolcow_latest.sif 
+<pre><code class="lang-bash">$ singularity pull docker://sylabsio/lolcow
+$ singularity run lolcow_latest.sif 
  _______________________________
 &lt; Fri Apr 22 07:25:20 CEST 2022 &gt;
  -------------------------------
@@ -307,20 +307,20 @@ singularity run lolcow_latest.sif
 srun -w node15 singularity <span class="hljs-built_in">exec</span> --nv pytorch_latest.sif nvidia-smi
 </code></pre>
 <h2 id="mpi">MPI</h2>
-<p>Singularity s&apos;occupe automatiquement de transférer les variables d&apos;environnement nécessaire au fonctionnement de mpi. Pensez simplement à ajouter <code>--mpi=pmi2</code> dans les flags de <code>srun</code>, comme dans :</p>
+<p>Singularity s&apos;occupe automatiquement de transférer les variables d&apos;environnement nécessaires au fonctionnement de mpi. Pensez simplement à ajouter <code>--mpi=pmi2</code> dans les flags de <code>srun</code>, comme dans :</p>
 <pre><code class="lang-bash">srun -n2 --mpi=pmi2 singularity <span class="hljs-built_in">exec</span> mpi4py_latest.sif python test_mpi.py
 </code></pre>
 <h2 id="accès-par-ssh-configuration-des-ides">Accès par ssh, configuration des IDEs</h2>
-<p>Vous pouvez enregistrer l&apos;environnement comme une machine sur laquelle se connecter avec ssh en ajoutant un <code>RemoteCommand</code> dans votre <code>.ssh/config</code> :</p>
+<p>Vous pouvez enregistrer l&apos;environnement comme une machine sur laquelle se connecter en ajoutant un <code>RemoteCommand</code> dans votre <code>.ssh/config</code> :</p>
 <pre><code class="lang-bash">Host &lt;mon_env&gt;
     <span class="hljs-comment"># ProxyJump &lt;cinaps_ou_autre&gt; si c&apos;est à lancer sur une autre machine</span>
     RemoteCommand singularity shell &lt;mon_image.sif&gt;
     HostName localhost
     RequestTTY yes
 </code></pre>
-<p>Après ça vous pourrez entre autres y développer à distance avec l&apos;aide de votre IDE favori.</p>
-<p>Pour visual code cependant, il faudra penser à ajouter <code>&quot;remote.SSH.enableRemoteCommand&quot;: true</code> dans <code>settings.json</code> (accessible via <code>ctrl-shift-p</code> puis <code>Open settings (JSON)</code>). Après ça, vous pouvez lancer la commande <code>Remote-SSH: connect to host</code> pour vous connecter à <code>&lt;mon_env&gt;</code>. Vous aurez ensuite accès à l&apos;autocomplétion qui correspond à votre environnement.</p>
-<p><img src="code_singularity.png" alt="code_singularity"></p>
+<p>Après ça, vous pourrez notamment y connecter votre IDE favori.</p>
+<p>Pour visual code cependant, il faudra penser à ajouter <code>&quot;remote.SSH.enableRemoteCommand&quot;: true</code> dans <code>settings.json</code> (accessible via <code>ctrl-shift-p</code> puis <code>Open settings (JSON)</code>). Après ça, vous pourrez lancer la commande <code>Remote-SSH: connect to host</code> pour vous connecter à <code>&lt;mon_env&gt;</code>. Vous aurez ensuite accès à l&apos;autocomplétion qui correspond à votre environnement.</p>
+<!-- ![code_singularity](code_singularity.png) -->
 <h2 id="modification-du-contenu-des-images">Modification du contenu des images</h2>
 <p>Par défaut, les fichiers du système géré par Singularity sont en lecture seule.</p>
 <p>Une possibilité pour changer ces fichiers est de passer par un &quot;bac à sable&quot; : les fichiers du système seront stockés dans un répertoire modifiable par Singularity.</p>
@@ -335,7 +335,7 @@ singularity shell --writable lolcow_latest.sif
 <p>Vous n&apos;aurez pas besoin d&apos;être root pour construire une image. Cependant, il faut que le fichier <code>/etc/setbuid</code> soit défini pour vous, ce qui n&apos;est pas le cas par défaut pour tous les systèmes. Si vous rencontrez un problème à ce sujet là, n&apos;hésitez pas à nous contacter.</p>
 <p>Voici un exemple de fichier de définition d&apos;image</p>
 <pre><code class="lang-bash"><span class="hljs-comment"># test.def</span>
-Bootstrap: library <span class="hljs-comment"># ou &quot;docker&quot; par exemple si vous prenez l&apos;image de base dans dockerhub</span>
+Bootstrap: library <span class="hljs-comment"># ou &quot;docker&quot; par exemple si vous prenez l&apos;image dans dockerhub</span>
 From: ubuntu:21.04
 Stage: build
 
@@ -354,7 +354,7 @@ Stage: build
 <p>On peut la compiler avec :</p>
 <pre><code class="lang-bash">singularity build --fakeroot test.sif test.def
 </code></pre>
-<p>et utiliser le <code>.sif</code> résultant comme les autres <code>.sif</code>.</p>
+<p>et utiliser le <code>.sif</code> résultant de la même manière que ceux qu&apos;on a chargé sur un hub.</p>
 <p>Vous trouverez une description plus détaillée dans <a href="https://sylabs.io/guides/3.5/user-guide/definition_files.html" target="_blank">cette page</a>.</p>
 
                                 
@@ -399,7 +399,7 @@ Stage: build
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Singularity","level":"1.5.3","depth":2,"next":{"title":"Documentation","level":"1.6","depth":1,"path":"0090_documentation.md","ref":"0090_documentation.md","articles":[]},"previous":{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0040_environnement/0030_singularity.md","mtime":"2022-04-22T10:33:29.425Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-05-13T17:10:10.023Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Singularity","level":"1.5.3","depth":2,"next":{"title":"Documentation","level":"1.6","depth":1,"path":"0090_documentation.md","ref":"0090_documentation.md","articles":[]},"previous":{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0040_environnement/0030_singularity.md","mtime":"2022-05-19T07:55:46.879Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-05-19T07:56:12.930Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -2,13 +2,15 @@
 
 Pour une plus grande liberté, notamment pour Python, mais pas que, [conda](https://docs.conda.io/en/latest/miniconda.html) vous permettra d'installer des environnements quasi-complets dans un de vos répertoire.
 
-Il y a une limite à ce qu'il est possible de faire sans les droits d'admin, mais bon nombre de programme et de librairie sont disponibles par ce biais. De plus, les environnements sont confinés : si par exemple vous installez un programme avec `pip` dans un environnement conda, ça ne modifiera que votre environnement conda.
+Il y a une limite à ce qu'il est possible de faire sans les droits d'admin, mais bon nombre de programmes et de librairies sont disponibles par ce biais.
+
+Par ailleurs, les environnements sont confinés : si par exemple vous installez un programme avec `pip` dans un environnement conda, ça ne modifiera que votre environnement conda.
 
 Pour savoir si un programme ou une librairie est installable par ce biais, vous pouvez aller sur [anaconda.org](https://anaconda.org/).
 
 # Installation
 
-Une fois connecté sur cinaps, vous pouvez taper:
+Une fois connecté·e sur cinaps, vous pouvez taper:
 
 ```bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -45,7 +47,7 @@ Une fois dans un environnement (celui de base ou un que vous avez créé), vous 
 conda install [-c nom_du_canal] nom_paquet_1 nom_paquet_2 ...
 ```
 
-Spécifier `-c nom_du_canal` n'est utile que pour les paquets qui ne sont pas disponibles sur un des canaux défini par défaut.
+Spécifier `-c nom_du_canal` n'est utile que pour les paquets qui ne sont pas disponibles sur les canaux définis par défaut.
 
 Pour savoir si c'est le cas, vous pouvez ou bien tester sans l'option et voir le résultat, ou bien chercher ce qui est proposé sur [anaconda.org](https://anaconda.org/).
 
