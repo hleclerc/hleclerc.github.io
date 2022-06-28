@@ -8,4 +8,7 @@
     * [Module](0040_environnement/0010_module.md)
     * [Conda](0040_environnement/0020_conda.md)
     * [Singularity](0040_environnement/0030_singularity.md)
-* [Documentation](0090_documentation.md)
+* [Exemples pour démarrer](0050_exemples/README.md)
+    * [pytorch](0050_exemples/0010_pytorch.md)
+    * [dask](0050_exemples/0020_dask.md)
+* [Participer à la documentation](0090_documentation.md)

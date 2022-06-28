@@ -6,7 +6,7 @@
         <title>Exécution · HonKit</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
-        <meta name="generator" content="HonKit 3.7.1">
+        <meta name="generator" content="HonKit 3.7.4">
         
         
         
@@ -16,7 +16,7 @@
     
             
                 
-                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                <link rel="stylesheet" href="gitbook/@honkit/honkit-plugin-highlight/website.css">
                 
             
                 
@@ -198,12 +198,57 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6" data-path="0090_documentation.html">
+        <li class="chapter " data-level="1.6" data-path="0050_exemples/">
+            
+                <a href="0050_exemples/">
+            
+                    
+                    Exemples pour démarrer
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="0050_exemples/0010_pytorch.html">
+            
+                <a href="0050_exemples/0010_pytorch.html">
+            
+                    
+                    pytorch
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="0050_exemples/0020_dask.html">
+            
+                <a href="0050_exemples/0020_dask.html">
+            
+                    
+                    dask
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="0090_documentation.html">
             
                 <a href="0090_documentation.html">
             
                     
-                    Documentation
+                    Participer à la documentation
             
                 </a>
             
@@ -270,7 +315,7 @@
 <ul>
 <li><code>-N</code> permet de spécifier le nombre minimum de nœuds (i.e. machine) sur lesquels lancer la commande.</li>
 <li><code>--nodelist=...</code> permet de spécifier les nœuds à utiliser.</li>
-<li><code>--gpus=n</code> permet de définir le nombre de gpus à utiliser. <code>--mem-per-gpu=n</code> pour donner la mémoire minimum pour chaque gpu.</li>
+<li><code>--gres=gpu:n</code> permet de définir le nombre de GPUs à utiliser par nœud. C&apos;est une façon de sélectionner les machines avec GPU (mais un fois les machines allouées, vous pourrez utiliser autant de GPU que vous voulez, notamment plus que ce que vous avez demandé si plus sont disponibles). <code>--mem-per-gpu=n</code> permet de donner la mémoire minimum pour chaque GPU.</li>
 <li><code>--mem=MB</code> permet de définir le taille minimale de mémoire pour chaque processus.</li>
 </ul>
 <h3 id="mpisingle-programme-multiple-data">Mpi/Single Programme Multiple Data</h3>
@@ -374,7 +419,7 @@ $ sbatch --array=1-7:2 mon_programme
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Exécution","level":"1.4","depth":1,"next":{"title":"Environnement de travail","level":"1.5","depth":1,"path":"0040_environnement/README.md","ref":"0040_environnement/README.md","articles":[{"title":"Module","level":"1.5.1","depth":2,"path":"0040_environnement/0010_module.md","ref":"0040_environnement/0010_module.md","articles":[]},{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},{"title":"Singularity","level":"1.5.3","depth":2,"path":"0040_environnement/0030_singularity.md","ref":"0040_environnement/0030_singularity.md","articles":[]}]},"previous":{"title":"Les fichiers","level":"1.3","depth":1,"path":"0020_les_fichiers.md","ref":"0020_les_fichiers.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0030_execution.md","mtime":"2022-05-19T07:40:43.999Z","type":"markdown"},"gitbook":{"version":"3.7.1","time":"2022-05-19T07:56:12.930Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Exécution","level":"1.4","depth":1,"next":{"title":"Environnement de travail","level":"1.5","depth":1,"path":"0040_environnement/README.md","ref":"0040_environnement/README.md","articles":[{"title":"Module","level":"1.5.1","depth":2,"path":"0040_environnement/0010_module.md","ref":"0040_environnement/0010_module.md","articles":[]},{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},{"title":"Singularity","level":"1.5.3","depth":2,"path":"0040_environnement/0030_singularity.md","ref":"0040_environnement/0030_singularity.md","articles":[]}]},"previous":{"title":"Les fichiers","level":"1.3","depth":1,"path":"0020_les_fichiers.md","ref":"0020_les_fichiers.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0030_execution.md","mtime":"2022-06-28T08:17:50.673Z","type":"markdown"},"gitbook":{"version":"3.7.4","time":"2022-06-28T11:05:08.410Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

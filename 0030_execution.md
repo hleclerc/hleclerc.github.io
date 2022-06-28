@@ -23,7 +23,7 @@ Voici quelques options importantes (utilisables aussi dans `sbatch`) :
 
 * `-N` permet de spécifier le nombre minimum de nœuds (i.e. machine) sur lesquels lancer la commande.
 * `--nodelist=...` permet de spécifier les nœuds à utiliser.
-* `--gpus=n` permet de définir le nombre de gpus à utiliser. `--mem-per-gpu=n` pour donner la mémoire minimum pour chaque gpu.
+* `--gres=gpu:n` permet de définir le nombre de GPUs à utiliser par nœud. C'est une façon de sélectionner les machines avec GPU (mais un fois les machines allouées, vous pourrez utiliser autant de GPU que vous voulez, notamment plus que ce que vous avez demandé si plus sont disponibles). `--mem-per-gpu=n` permet de donner la mémoire minimum pour chaque GPU.
 * `--mem=MB` permet de définir le taille minimale de mémoire pour chaque processus.
 
 ### Mpi/Single Programme Multiple Data

@@ -3,7 +3,7 @@
 <html lang="" >
     <head>
         <meta charset="UTF-8">
-        <title>Module · HonKit</title>
+        <title>Exemples pour démarrer · HonKit</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="HonKit 3.7.4">
@@ -56,10 +56,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="0020_conda.html" />
+    <link rel="next" href="0010_pytorch.html" />
     
     
-    <link rel="prev" href="./" />
+    <link rel="prev" href="../0040_environnement/0030_singularity.html" />
     
 
     </head>
@@ -140,9 +140,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="./">
+        <li class="chapter " data-level="1.5" data-path="../0040_environnement/">
             
-                <a href="./">
+                <a href="../0040_environnement/">
             
                     
                     Environnement de travail
@@ -154,9 +154,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.5.1" data-path="0010_module.html">
+        <li class="chapter " data-level="1.5.1" data-path="../0040_environnement/0010_module.html">
             
-                <a href="0010_module.html">
+                <a href="../0040_environnement/0010_module.html">
             
                     
                     Module
@@ -167,9 +167,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.2" data-path="0020_conda.html">
+        <li class="chapter " data-level="1.5.2" data-path="../0040_environnement/0020_conda.html">
             
-                <a href="0020_conda.html">
+                <a href="../0040_environnement/0020_conda.html">
             
                     
                     Conda
@@ -180,9 +180,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.3" data-path="0030_singularity.html">
+        <li class="chapter " data-level="1.5.3" data-path="../0040_environnement/0030_singularity.html">
             
-                <a href="0030_singularity.html">
+                <a href="../0040_environnement/0030_singularity.html">
             
                     
                     Singularity
@@ -198,9 +198,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6" data-path="../0050_exemples/">
+        <li class="chapter active" data-level="1.6" data-path="./">
             
-                <a href="../0050_exemples/">
+                <a href="./">
             
                     
                     Exemples pour démarrer
@@ -212,9 +212,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.6.1" data-path="../0050_exemples/0010_pytorch.html">
+        <li class="chapter " data-level="1.6.1" data-path="0010_pytorch.html">
             
-                <a href="../0050_exemples/0010_pytorch.html">
+                <a href="0010_pytorch.html">
             
                     
                     pytorch
@@ -225,9 +225,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6.2" data-path="../0050_exemples/0020_dask.html">
+        <li class="chapter " data-level="1.6.2" data-path="0020_dask.html">
             
-                <a href="../0050_exemples/0020_dask.html">
+                <a href="0020_dask.html">
             
                     
                     dask
@@ -286,7 +286,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Module</a>
+        <a href=".." >Exemples pour démarrer</a>
     </h1>
 </div>
 
@@ -301,29 +301,9 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="module-pour-les-besoins-les-plus-courants">Module (pour les besoins les plus courants)</h1>
-<p>Pour les environnements/librairies/outils les plus courants, vous pouvez tester la commande <code>module</code>.</p>
-<p>Cette dernière change les variables d&apos;environnement du shell courant pour rendre accessible des programmes installés dans des répertoires qui ne sont pas du système.</p>
-<h2 id="charger-un-module">Charger un module</h2>
-<p>Par exemple, si vous voulez lancer un programme avec R version 3.5.3, vous pouvez taper</p>
-<pre><code class="lang-bash">module load R/3.5.3
-</code></pre>
-<p>et le shell dans lequel cette commande a été tapée aura accès à cette version de R (exécutable, librairies, etc...).</p>
-<p>Si vous souhaitez utiliser la dernière version, vous pouvez taper</p>
-<pre><code class="lang-bash">module load R
-</code></pre>
-<h2 id="modules-disponibles">Modules disponibles</h2>
-<p>Pour connaître la liste des modules disponibles, vous pouvez taper</p>
-<pre><code class="lang-bash">module avail
-</code></pre>
-<p>Si vous avez besoin d&apos;un programme ou d&apos;une librairie non disponible par ce biais, mais qui pourrait être un besoin commun, n&apos;hésitez pas à contacter un référent.</p>
-<h2 id="autres-commandes">Autres commandes</h2>
-<p>Pour connaître la liste des modules chargés :</p>
-<pre><code class="lang-bash">module list
-</code></pre>
-<p>Enfin, pour décharger un module :</p>
-<pre><code class="lang-bash">module unload &lt;nom_du_module&gt;
-</code></pre>
+                                <h1 id="exemples-pour-démarrer">Exemples pour démarrer</h1>
+<p>Cette section contient des instructions pas à pas pour démarrer sous quelques exemples d’environnements.</p>
+<p>En principe, elle ne permet pas de s&apos;abstraire de la lecture des sections précédentes.</p>
 
                                 
                                 </section>
@@ -351,12 +331,12 @@
 
             
                 
-                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Environnement de travail">
+                <a href="../0040_environnement/0030_singularity.html" class="navigation navigation-prev " aria-label="Previous page: Singularity">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="0020_conda.html" class="navigation navigation-next " aria-label="Next page: Conda">
+                <a href="0010_pytorch.html" class="navigation navigation-next " aria-label="Next page: pytorch">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -367,7 +347,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Module","level":"1.5.1","depth":2,"next":{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},"previous":{"title":"Environnement de travail","level":"1.5","depth":1,"path":"0040_environnement/README.md","ref":"0040_environnement/README.md","articles":[{"title":"Module","level":"1.5.1","depth":2,"path":"0040_environnement/0010_module.md","ref":"0040_environnement/0010_module.md","articles":[]},{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},{"title":"Singularity","level":"1.5.3","depth":2,"path":"0040_environnement/0030_singularity.md","ref":"0040_environnement/0030_singularity.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0040_environnement/0010_module.md","mtime":"2022-04-22T13:02:00.540Z","type":"markdown"},"gitbook":{"version":"3.7.4","time":"2022-06-28T11:05:08.410Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Exemples pour démarrer","level":"1.6","depth":1,"next":{"title":"pytorch","level":"1.6.1","depth":2,"path":"0050_exemples/0010_pytorch.md","ref":"0050_exemples/0010_pytorch.md","articles":[]},"previous":{"title":"Singularity","level":"1.5.3","depth":2,"path":"0040_environnement/0030_singularity.md","ref":"0040_environnement/0030_singularity.md","articles":[]},"articles":[{"title":"pytorch","level":"1.6.1","depth":2,"path":"0050_exemples/0010_pytorch.md","ref":"0050_exemples/0010_pytorch.md","articles":[]},{"title":"dask","level":"1.6.2","depth":2,"path":"0050_exemples/0020_dask.md","ref":"0050_exemples/0020_dask.md","articles":[]}],"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0050_exemples/README.md","mtime":"2022-06-28T07:37:32.527Z","type":"markdown"},"gitbook":{"version":"3.7.4","time":"2022-06-28T11:05:08.410Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

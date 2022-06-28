@@ -1,0 +1,480 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <title>pytorch · HonKit</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 3.7.4">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="0020_dask.html" />
+    
+    
+    <link rel="prev" href="./" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../0010_se_connecter.html">
+            
+                <a href="../0010_se_connecter.html">
+            
+                    
+                    Se connecter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../0020_les_fichiers.html">
+            
+                <a href="../0020_les_fichiers.html">
+            
+                    
+                    Les fichiers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../0030_execution.html">
+            
+                <a href="../0030_execution.html">
+            
+                    
+                    Exécution
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../0040_environnement/">
+            
+                <a href="../0040_environnement/">
+            
+                    
+                    Environnement de travail
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../0040_environnement/0010_module.html">
+            
+                <a href="../0040_environnement/0010_module.html">
+            
+                    
+                    Module
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../0040_environnement/0020_conda.html">
+            
+                <a href="../0040_environnement/0020_conda.html">
+            
+                    
+                    Conda
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../0040_environnement/0030_singularity.html">
+            
+                <a href="../0040_environnement/0030_singularity.html">
+            
+                    
+                    Singularity
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Exemples pour démarrer
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.6.1" data-path="0010_pytorch.html">
+            
+                <a href="0010_pytorch.html">
+            
+                    
+                    pytorch
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="0020_dask.html">
+            
+                <a href="0020_dask.html">
+            
+                    
+                    dask
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../0090_documentation.html">
+            
+                <a href="../0090_documentation.html">
+            
+                    
+                    Participer à la documentation
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            Published with HonKit
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >pytorch</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="exemple-avec-pytorch">Exemple avec pytorch</h1>
+<p>Pytorch peut par exemple être installé via <code>pip</code>, <code>conda</code> ou <code>singularity</code>. <code>pip</code> modifie votre environnement global, ce qui peut poser des soucis lorsque vous voulez utiliser d&apos;autres outils pour d&apos;autres projets qui pourraient demander des dépendances incompatibles...</p>
+<p>A contrario, <code>conda</code> permettant de créer des environnements spécifiques, vous pourrez en l&apos;utilisant isoler vos installations et projets les uns des autres.</p>
+<p><code>singularity</code> permet d&apos;aller encore plus loin en installant un système complet, mais ce n&apos;est pas utile pour les installations simples de pytorch.</p>
+<p>Pour cet exemple d&apos;utilisation basique de pytorch, nous utiliserons donc <code>conda</code>.</p>
+<h2 id="installation">Installation</h2>
+<p>Après connexion sur cinaps (cf. <a href="0010_se_connecter.md">Se connecter</a>), et éventuellement <a href="0040_environnement/0020_conda.md">installation locale de conda</a> (pas obligatoire, mais utile pour des exécutions plus rapides), vous pouvez taper :</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># creation d&apos;un environnement (vous pouvez changer le nom :) )</span>
+conda create --name mon_pytorch
+<span class="hljs-comment"># activation: les exécutions et les commandes d&apos;installation </span>
+<span class="hljs-comment"># fonctionneront avec cet environnement</span>
+conda activate mon_pytorch
+<span class="hljs-comment"># installation des paquets, comme recommandé dans https://pytorch.org/</span>
+conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
+</code></pre>
+<h2 id="test-en-direct-srun">Test en direct (<code>srun</code>)</h2>
+<p>Pour tester si l&apos;installation fonctionne bien avec CUDA, on pourra utiliser <code>srun</code> qui permet de lancer une commande en mode interactif. La commande est lancée sur une autre machine, mais vous avez un retour direct et pouvez interagir avec le clavier.</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># On va sélectionner une machine avec au moins 1 GPU</span>
+srun --gres=gpu:1 python -c <span class="hljs-string">&quot;import torch; print(torch.cuda.device_count())&quot;</span>
+<span class="hljs-comment"># Vous obtiendrait en principe 1 ou plus</span>
+</code></pre>
+<h2 id="en-exemple-avec-sbatch">En exemple avec <code>sbatch</code></h2>
+<p>Pour les calculs long, vous pouvez utiliser <code>sbatch</code>, qui lance par défaut les processus en tache de fond. De cette manière vous pouvez vous déconnecter - puis éteindre votre ordinateur et débrancher la prise si vous voulez :) - et le calcul continuera de tourner sur le cluster, sans interruption.</p>
+<p><code>sbatch</code> utilise un fichier shell pour définir l&apos;environnement et les commandes à exécuter. Voici un exemple synthétique (cf. la section <a href="0030_execution.md">Exécution</a> pour plus de détails) :</p>
+<pre><code class="lang-bash"><span class="hljs-meta">#!/bin/bash </span>
+
+<span class="hljs-comment">#SBATCH --mail-user=adresse@email.com </span>
+<span class="hljs-comment">#SBATCH --mail-type=BEGIN,END,FAIL</span>
+<span class="hljs-comment">#SBATCH --job-name=nom_du_job</span>
+<span class="hljs-comment">#SBATCH --output=./%j.stdout</span>
+<span class="hljs-comment">#SBATCH --error=./%j.stderr</span>
+<span class="hljs-comment">#SBATCH --gres=gpu:1</span>
+
+python -c <span class="hljs-string">&quot;import torch; print(torch.cuda.device_count())&quot;</span>
+</code></pre>
+<p>Vous aurez les résultat dans <code>num_du_job.stdout</code> et <code>num_du_job.stderr</code>.</p>
+<p>Remarque importante : <code>srun</code> et <code>sbatch</code> copient les l&apos;état des variables d&apos;environnement du shell au moment du lancement, incluant le répertoire de travail, les modules installées, etc... Si par exemple vous avez activé <code>conda</code> avant de lancer <code>srun</code> ou <code>sbatch</code>, l&apos;environnement sera toujours valide dans les commandes qui y sont lancées.</p>
+<p>Activer les environnements a posteriori, peut néanmoins être intéressant, notamment pour ne pas avoir à le préparer de nouveau à chaque fois que vous vous connectez. Dans ce cas, le fichier shell pourra ressembler à :</p>
+<pre><code class="lang-bash"><span class="hljs-meta">#!/bin/bash </span>
+
+<span class="hljs-comment"># Contexte slurm</span>
+<span class="hljs-comment">#SBATCH ...</span>
+
+<span class="hljs-comment"># Environnement.</span>
+<span class="hljs-comment">#  Rq: pour conda, il faut redéfinir les fonctions </span>
+<span class="hljs-comment">#  ces dernières n&apos;étant pas exportés dans les sous-shells :(</span>
+<span class="hljs-built_in">source</span> <span class="hljs-variable">$CONDA_PREFIX</span>/etc/profile.d/conda.sh
+<span class="hljs-comment">#  mais après ça, on peut executer les commandes conda habituelles</span>
+conda activate mon_pytorch
+
+<span class="hljs-comment"># Exécution</span>
+python -c <span class="hljs-string">&quot;import torch; print(torch.cuda.device_count())&quot;</span>
+</code></pre>
+<h2 id="en-exemple-avec-du-calcul-parallèle">En exemple avec du calcul parallèle</h2>
+<p><a href="https://gist.github.com/TengdaHan/1dd10d335c7ca6f13810fff41e809904" target="_blank">Cette page</a> contient un exemple complet de calcul parallèle avec slurm.</p>
+<p>On pourra essentiellement retenir que c&apos;est à l&apos;utilisat·eur·rice de faire le lien. En particulier, quand on demande à slurm de lancer plusieurs processus, il les lance de façon identique, avec seulement quelques changements dans les variables d&apos;environnement (<code>SLURM_...</code>) dont pytorch se moque.</p>
+<p>Si vous ne faîtes rien (i.e. pas de lien), le même programme sera lancé <em>n</em> fois avec le même jeu de donnée (il fera <em>n</em> fois le même calcul). La solution est donc de lire les variables d&apos;environnement mises en place par slurm (par exemple <code>os.environ[&apos;SLURM_PROCID&apos;]</code>) puis de mettre les résultats dans la configuration des classes de pytorch.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Exemples pour démarrer">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="0020_dask.html" class="navigation navigation-next " aria-label="Next page: dask">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"pytorch","level":"1.6.1","depth":2,"next":{"title":"dask","level":"1.6.2","depth":2,"path":"0050_exemples/0020_dask.md","ref":"0050_exemples/0020_dask.md","articles":[]},"previous":{"title":"Exemples pour démarrer","level":"1.6","depth":1,"path":"0050_exemples/README.md","ref":"0050_exemples/README.md","articles":[{"title":"pytorch","level":"1.6.1","depth":2,"path":"0050_exemples/0010_pytorch.md","ref":"0050_exemples/0010_pytorch.md","articles":[]},{"title":"dask","level":"1.6.2","depth":2,"path":"0050_exemples/0020_dask.md","ref":"0050_exemples/0020_dask.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0050_exemples/0010_pytorch.md","mtime":"2022-06-28T09:33:02.608Z","type":"markdown"},"gitbook":{"version":"3.7.4","time":"2022-06-28T11:05:08.410Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

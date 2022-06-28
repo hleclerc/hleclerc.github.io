@@ -3,7 +3,7 @@
 <html lang="" >
     <head>
         <meta charset="UTF-8">
-        <title>Module · HonKit</title>
+        <title>dask · HonKit</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="HonKit 3.7.4">
@@ -56,10 +56,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="0020_conda.html" />
+    <link rel="next" href="../0090_documentation.html" />
     
     
-    <link rel="prev" href="./" />
+    <link rel="prev" href="0010_pytorch.html" />
     
 
     </head>
@@ -140,9 +140,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="./">
+        <li class="chapter " data-level="1.5" data-path="../0040_environnement/">
             
-                <a href="./">
+                <a href="../0040_environnement/">
             
                     
                     Environnement de travail
@@ -154,9 +154,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.5.1" data-path="0010_module.html">
+        <li class="chapter " data-level="1.5.1" data-path="../0040_environnement/0010_module.html">
             
-                <a href="0010_module.html">
+                <a href="../0040_environnement/0010_module.html">
             
                     
                     Module
@@ -167,9 +167,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.2" data-path="0020_conda.html">
+        <li class="chapter " data-level="1.5.2" data-path="../0040_environnement/0020_conda.html">
             
-                <a href="0020_conda.html">
+                <a href="../0040_environnement/0020_conda.html">
             
                     
                     Conda
@@ -180,9 +180,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.3" data-path="0030_singularity.html">
+        <li class="chapter " data-level="1.5.3" data-path="../0040_environnement/0030_singularity.html">
             
-                <a href="0030_singularity.html">
+                <a href="../0040_environnement/0030_singularity.html">
             
                     
                     Singularity
@@ -198,9 +198,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6" data-path="../0050_exemples/">
+        <li class="chapter " data-level="1.6" data-path="./">
             
-                <a href="../0050_exemples/">
+                <a href="./">
             
                     
                     Exemples pour démarrer
@@ -212,9 +212,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.6.1" data-path="../0050_exemples/0010_pytorch.html">
+        <li class="chapter " data-level="1.6.1" data-path="0010_pytorch.html">
             
-                <a href="../0050_exemples/0010_pytorch.html">
+                <a href="0010_pytorch.html">
             
                     
                     pytorch
@@ -225,9 +225,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6.2" data-path="../0050_exemples/0020_dask.html">
+        <li class="chapter active" data-level="1.6.2" data-path="0020_dask.html">
             
-                <a href="../0050_exemples/0020_dask.html">
+                <a href="0020_dask.html">
             
                     
                     dask
@@ -286,7 +286,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Module</a>
+        <a href=".." >dask</a>
     </h1>
 </div>
 
@@ -301,28 +301,60 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="module-pour-les-besoins-les-plus-courants">Module (pour les besoins les plus courants)</h1>
-<p>Pour les environnements/librairies/outils les plus courants, vous pouvez tester la commande <code>module</code>.</p>
-<p>Cette dernière change les variables d&apos;environnement du shell courant pour rendre accessible des programmes installés dans des répertoires qui ne sont pas du système.</p>
-<h2 id="charger-un-module">Charger un module</h2>
-<p>Par exemple, si vous voulez lancer un programme avec R version 3.5.3, vous pouvez taper</p>
-<pre><code class="lang-bash">module load R/3.5.3
+                                <h1 id="calcul-parallèle-en-python-avec-dask">Calcul parallèle en python avec dask</h1>
+<p>Il existe beaucoup de façon de faire du calcul parallèle en python. Dask est une solution agréable, testée et mise à profit par une communauté assez large d&apos;utilisateur. Elle n&apos;est pas conçue pour les très gros clusters (les communications n&apos;y seraient pas optimisées), mais le notre (celui du LMO) n&apos;entre pas dans cette catégorie :)</p>
+<p>Vous trouverez une documentation complète sur <a href="https://www.dask.org/" target="_blank">dask.org</a>. Dask construit de graphes de taches, qui peuvent ensuite automatiquement être répartis sur les cores et les machines disponible.</p>
+<h2 id="avec-une-seule-machine">Avec une seule machine</h2>
+<p>Voici un exemple de programme avec exécution en local</p>
+<pre><code class="lang-py"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> dask.array <span class="hljs-keyword">as</span> da
+
+<span class="hljs-comment"># on peut transformer une fonction en </span>
+<span class="hljs-comment"># un version paresseuse qui génére</span>
+<span class="hljs-comment"># un noeud dans le graphe de taches</span>
+<span class="hljs-meta">@dask.delayed</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">inc</span>(<span class="hljs-params">x</span>):</span>
+   <span class="hljs-keyword">return</span> x + <span class="hljs-number">1</span>
+
+<span class="hljs-comment"># données numpy standard (on n&apos;est pas obligés</span>
+<span class="hljs-comment"># de partir du données numpy, c&apos;est juste pour</span>
+<span class="hljs-comment"># montrer l&apos;interopérabilité)</span>
+data = np.arange(<span class="hljs-number">100_000</span>).reshape(<span class="hljs-number">200</span>, <span class="hljs-number">500</span>)
+
+<span class="hljs-comment"># on découpe le tableau en sous-partie</span>
+<span class="hljs-comment"># pour favoriser le calcul parallèle</span>
+a = da.from_array(data, chunks=(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>))
+
+<span class="hljs-comment"># on construit un graph avec les opérations</span>
+<span class="hljs-comment"># à effectuer sur chaque partie</span>
+m = inc( np.sin( a ) ).mean()
+
+<span class="hljs-comment"># on demande l&apos;exécution du graph</span>
+<span class="hljs-built_in">print</span>( m.compute() )
 </code></pre>
-<p>et le shell dans lequel cette commande a été tapée aura accès à cette version de R (exécutable, librairies, etc...).</p>
-<p>Si vous souhaitez utiliser la dernière version, vous pouvez taper</p>
-<pre><code class="lang-bash">module load R
-</code></pre>
-<h2 id="modules-disponibles">Modules disponibles</h2>
-<p>Pour connaître la liste des modules disponibles, vous pouvez taper</p>
-<pre><code class="lang-bash">module avail
-</code></pre>
-<p>Si vous avez besoin d&apos;un programme ou d&apos;une librairie non disponible par ce biais, mais qui pourrait être un besoin commun, n&apos;hésitez pas à contacter un référent.</p>
-<h2 id="autres-commandes">Autres commandes</h2>
-<p>Pour connaître la liste des modules chargés :</p>
-<pre><code class="lang-bash">module list
-</code></pre>
-<p>Enfin, pour décharger un module :</p>
-<pre><code class="lang-bash">module unload &lt;nom_du_module&gt;
+<p>Par défaut, Dask utilise tous les cœurs disponibles en local (indépendamment de slurm).</p>
+<h2 id="avec-plusieurs-machines">Avec plusieurs machines</h2>
+<p>Si la puissance d&apos;une seule machine ne suffit pas vous pouvez demander à <code>dask_jobqueue</code> de lancer plusieurs jobs pour vous.</p>
+<p>La bonne nouvelle, c&apos;est que <code>dask_jobqueue</code> va lancer pour vous les <code>srun</code>. La mauvaise nouvelle, c&apos;est que <code>dask_jobqueue</code> ne semble pas vraiment conçu pour les clusters hétérogènes : il prendra un nombre fixe de cores par job. Il y aura donc dans certains cas un coût de communication plus important... mais pas forcément rédhibitoire (il s&apos;agira de communications locales).</p>
+<p>Voici un exemple d&apos;utilisation:</p>
+<pre><code class="lang-py"><span class="hljs-comment"># pip install dask_jobqueue si ce n&apos;est pas déjà installé</span>
+<span class="hljs-keyword">from</span> dask_jobqueue <span class="hljs-keyword">import</span> SLURMCluster
+cluster = SLURMCluster(
+    cores=<span class="hljs-number">4</span>, <span class="hljs-comment"># il faut mettre grand pour favoriser le multithreading</span>
+             <span class="hljs-comment"># mais pas trop grand, pour ne pas restreindre les </span>
+             <span class="hljs-comment"># machines à utiliser (c&apos;est le nombre de cores</span>
+             <span class="hljs-comment"># PAR JOB)</span>
+    memory=<span class="hljs-string">&apos;1GB&apos;</span>,
+    name=<span class="hljs-string">&quot;mon_proj&quot;</span>,
+    asynchronous=<span class="hljs-literal">True</span>
+)
+cluster.scale( jobs=<span class="hljs-number">2</span> ) <span class="hljs-comment"># le nombre de machines à utiliser</span>
+
+<span class="hljs-keyword">from</span> dask.distributed <span class="hljs-keyword">import</span> Client
+client = Client(cluster)
+
+<span class="hljs-keyword">import</span> dask.array <span class="hljs-keyword">as</span> da
+<span class="hljs-meta">... </span><span class="hljs-comment"># le même programme que précédemment</span>
 </code></pre>
 
                                 
@@ -351,12 +383,12 @@
 
             
                 
-                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Environnement de travail">
+                <a href="0010_pytorch.html" class="navigation navigation-prev " aria-label="Previous page: pytorch">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="0020_conda.html" class="navigation navigation-next " aria-label="Next page: Conda">
+                <a href="../0090_documentation.html" class="navigation navigation-next " aria-label="Next page: Participer à la documentation">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -367,7 +399,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Module","level":"1.5.1","depth":2,"next":{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},"previous":{"title":"Environnement de travail","level":"1.5","depth":1,"path":"0040_environnement/README.md","ref":"0040_environnement/README.md","articles":[{"title":"Module","level":"1.5.1","depth":2,"path":"0040_environnement/0010_module.md","ref":"0040_environnement/0010_module.md","articles":[]},{"title":"Conda","level":"1.5.2","depth":2,"path":"0040_environnement/0020_conda.md","ref":"0040_environnement/0020_conda.md","articles":[]},{"title":"Singularity","level":"1.5.3","depth":2,"path":"0040_environnement/0030_singularity.md","ref":"0040_environnement/0030_singularity.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0040_environnement/0010_module.md","mtime":"2022-04-22T13:02:00.540Z","type":"markdown"},"gitbook":{"version":"3.7.4","time":"2022-06-28T11:05:08.410Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"dask","level":"1.6.2","depth":2,"next":{"title":"Participer à la documentation","level":"1.7","depth":1,"path":"0090_documentation.md","ref":"0090_documentation.md","articles":[]},"previous":{"title":"pytorch","level":"1.6.1","depth":2,"path":"0050_exemples/0010_pytorch.md","ref":"0050_exemples/0010_pytorch.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"0050_exemples/0020_dask.md","mtime":"2022-06-28T11:01:53.239Z","type":"markdown"},"gitbook":{"version":"3.7.4","time":"2022-06-28T11:05:08.410Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
